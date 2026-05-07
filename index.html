@@ -404,7 +404,7 @@ tr:hover td{background:#fafafa;}
 </div>
 
 <!-- SECURITY LOG VISITOR MODAL -->
-<div class="modal-overlay" id="secModal" style="display:none;">
+<div class="modal-overlay" id="secModal">
   <div class="modal" style="max-width:500px;">
     <div class="modal-header">
       <span class="modal-title">🚗 Log New Visitor</span>
@@ -1015,6 +1015,139 @@ function restoreData() {
   };
   input.click();
 }
+
+// ══════════════════════════════════════════
+// SECURITY GATE FUNCTIONS
+// ══════════════════════════════════════════
+function openSecModal() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('sec-timein').value = hh + ':' + mm;
+  document.getElementById('sec-name').value = '';
+  document.getElementById('sec-phone').value = '';
+  document.getElementById('sec-plate').value = '';
+  document.getElementById('sec-visiting').value = '';
+  document.getElementById('sec-purpose').value = '';
+  document.getElementById('secModal').classList.add('show');
+}
+
+function submitSecVisitor() {
+  const name     = document.getElementById('sec-name').value.trim();
+  const phone    = document.getElementById('sec-phone').value.trim();
+  const plate    = document.getElementById('sec-plate').value.trim().toUpperCase();
+  const visiting = document.getElementById('sec-visiting').value.trim();
+  const purpose  = document.getElementById('sec-purpose').value;
+  const timeIn   = document.getElementById('sec-timein').value;
+  if(!name || !phone || !plate || !visiting || !purpose) {
+    toast('Please fill in all required fields', 'error'); return;
+  }
+  const today = new Date().toISOString().split('T')[0];
+  const entry = {
+    id: 'VIS-' + Date.now(),
+    name, phone, plate, visiting, purpose, timeIn,
+    timeOut: '', date: today,
+    loggedBy: currentUser.name,
+    shift: currentUser.name.toLowerCase().includes('night') ? 'Night' : 'Day',
+    status: 'On Premises'
+  };
+  DB.visitorLog.push(entry);
+  saveStore();
+  closeModal('secModal');
+  renderSecLog();
+  renderSecStats();
+  toast('✅ Visitor logged successfully', 'success');
+}
+
+function logVisitorOut(id) {
+  const entry = DB.visitorLog.find(v => v.id === id);
+  if(!entry) return;
+  const now = new Date();
+  entry.timeOut = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  entry.status = 'Departed';
+  saveStore();
+  renderSecLog();
+  renderSecStats();
+  toast('✅ Visitor departure recorded', 'success');
+}
+
+function renderSecStats() {
+  const today = new Date().toISOString().split('T')[0];
+  const todayVisitors = DB.visitorLog.filter(v => v.date === today);
+  const onPremises = todayVisitors.filter(v => v.status === 'On Premises');
+  const departed   = todayVisitors.filter(v => v.status === 'Departed');
+  const t = document.getElementById('secStatTotal');
+  const i = document.getElementById('secStatIn');
+  const o = document.getElementById('secStatOut');
+  if(t) t.textContent = todayVisitors.length;
+  if(i) i.textContent = onPremises.length;
+  if(o) o.textContent = departed.length;
+}
+
+function renderSecLog() {
+  const today = new Date().toISOString().split('T')[0];
+  const search = (document.getElementById('secSearch')||{value:''}).value.toLowerCase();
+  const tbody = document.getElementById('secLogTable');
+  const emptyMsg = document.getElementById('secEmptyMsg');
+  if(!tbody) return;
+  let logs = [...DB.visitorLog].sort((a,b) => b.id.localeCompare(a.id));
+  if(search) logs = logs.filter(v =>
+    v.name.toLowerCase().includes(search) ||
+    v.plate.toLowerCase().includes(search) ||
+    v.phone.includes(search)
+  );
+  if(logs.length === 0) {
+    tbody.innerHTML = '';
+    if(emptyMsg) emptyMsg.style.display = 'block';
+    return;
+  }
+  if(emptyMsg) emptyMsg.style.display = 'none';
+  tbody.innerHTML = logs.map(v => {
+    const isToday = v.date === today;
+    const sc = v.status === 'On Premises' ? '#ef4444' : '#22c55e';
+    return `<tr style="border-bottom:1px solid #1e3a5f;${!isToday?'opacity:0.6':''}">
+      <td style="padding:12px 14px;color:#fff;font-weight:600;font-size:13px;">${v.name}</td>
+      <td style="padding:12px 14px;color:#94a3b8;font-size:12px;">${v.phone}</td>
+      <td style="padding:12px 14px;"><span style="background:#1e3a5f;color:#f59e0b;font-weight:700;font-size:12px;padding:3px 8px;border-radius:5px;letter-spacing:1px;">${v.plate}</span></td>
+      <td style="padding:12px 14px;color:#94a3b8;font-size:12px;">${v.purpose}</td>
+      <td style="padding:12px 14px;color:#94a3b8;font-size:12px;">${v.visiting}</td>
+      <td style="padding:12px 14px;color:#f59e0b;font-size:12px;font-weight:600;">${v.timeIn||'—'}</td>
+      <td style="padding:12px 14px;color:#22c55e;font-size:12px;font-weight:600;">${v.timeOut||'—'}</td>
+      <td style="padding:12px 14px;"><span style="background:${sc}22;color:${sc};font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;">${v.status}</span></td>
+      <td style="padding:12px 14px;">
+        ${v.status==='On Premises'?`<button onclick="logVisitorOut('${v.id}')" style="background:#22c55e22;border:1px solid #22c55e44;color:#22c55e;border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer;font-family:inherit;font-weight:600;">Log Out</button>`:'<span style="color:#374151;font-size:11px;">Departed</span>'}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderSecAdminLog() {
+  const search = (document.getElementById('secAdminSearch')||{value:''}).value.toLowerCase();
+  const tbody = document.getElementById('secAdminTable');
+  const statsEl = document.getElementById('secAdminStats');
+  if(!tbody) return;
+  let logs = [...DB.visitorLog].sort((a,b) => b.id.localeCompare(a.id));
+  if(search) logs = logs.filter(v =>
+    v.name.toLowerCase().includes(search) ||
+    v.plate.toLowerCase().includes(search) ||
+    v.phone.includes(search)
+  );
+  if(statsEl) statsEl.textContent = logs.length + ' records';
+  if(logs.length===0){ tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:30px;color:#94a3b8;">No visitor records found.</td></tr>'; return; }
+  tbody.innerHTML = logs.map(v=>`<tr>
+    <td>${v.date}</td>
+    <td style="font-weight:600;">${v.name}</td>
+    <td>${v.phone}</td>
+    <td><span class="badge amber">${v.plate}</span></td>
+    <td>${v.purpose}</td>
+    <td>${v.visiting}</td>
+    <td style="font-weight:600;color:#f59e0b;">${v.timeIn||'—'}</td>
+    <td style="font-weight:600;color:#22c55e;">${v.timeOut||'—'}</td>
+    <td><span class="badge ${v.shift==='Night'?'purple':'teal'}">${v.shift} Shift</span></td>
+    <td><span class="badge ${v.status==='On Premises'?'red':'green'}">${v.status}</span></td>
+  </tr>`).join('');
+}
+
 function removeDuplicates() {
   const beforeCount = DB.checkIns.length;
 
