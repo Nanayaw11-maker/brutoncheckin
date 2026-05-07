@@ -975,8 +975,14 @@ function loadStore() {
     const saved = JSON.parse(localStorage.getItem(STORE_KEY));
     if (!saved) return getDefaultStore();
     const def = getDefaultStore();
+    // Always merge staff: keep saved custom staff but ensure all default staff exist
+    const savedIds = (saved.staff||[]).map(s=>s.id);
+    const mergedStaff = [
+      ...(saved.staff||[]),
+      ...def.staff.filter(s => !savedIds.includes(s.id))
+    ];
     return {
-      staff:        saved.staff        || def.staff,
+      staff:        mergedStaff,
       rooms:        saved.rooms        || def.rooms,
       checkIns:     dedup(saved.checkIns     || [], 'bookingRef'),
       checkOuts:    dedup(saved.checkOuts    || [], 'bookingRef'),
