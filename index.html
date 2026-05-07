@@ -333,6 +333,113 @@ tr:hover td{background:#fafafa;}
   </div>
 </div>
 
+
+<!-- SECURITY GATE APP -->
+<div id="secApp" style="display:none;min-height:100vh;background:#0a0f1a;font-family:'Plus Jakarta Sans',sans-serif;">
+  <!-- Header -->
+  <div style="background:#0d1b2a;border-bottom:2px solid #1e3a5f;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="background:#f59e0b;color:#0a0f1a;font-weight:800;font-size:11px;padding:4px 10px;border-radius:5px;letter-spacing:1px;">BRUTON</div>
+      <div>
+        <div style="color:#fff;font-weight:700;font-size:16px;">Security Gate Log</div>
+        <div style="color:#64748b;font-size:11px;" id="secShiftBadge">Day Shift</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div style="text-align:right;">
+        <div style="color:#f59e0b;font-weight:700;font-size:15px;" id="secClock">--:--:--</div>
+        <div style="color:#64748b;font-size:11px;" id="secUserName">Security</div>
+      </div>
+      <button onclick="appLogout()" style="background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.3);color:#f87171;border-radius:7px;padding:7px 14px;font-size:12px;cursor:pointer;font-family:inherit;">Sign Out</button>
+    </div>
+  </div>
+
+  <div style="padding:20px 24px;max-width:1100px;margin:auto;">
+    <!-- Stats row -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;">
+      <div style="background:#0d1b2a;border:1px solid #1e3a5f;border-radius:12px;padding:16px 20px;">
+        <div style="font-size:11px;color:#64748b;letter-spacing:1px;margin-bottom:6px;">TODAY'S VISITORS</div>
+        <div style="font-size:28px;font-weight:800;color:#f59e0b;" id="secStatTotal">0</div>
+      </div>
+      <div style="background:#0d1b2a;border:1px solid #1e3a5f;border-radius:12px;padding:16px 20px;">
+        <div style="font-size:11px;color:#64748b;letter-spacing:1px;margin-bottom:6px;">STILL ON PREMISES</div>
+        <div style="font-size:28px;font-weight:800;color:#ef4444;" id="secStatIn">0</div>
+      </div>
+      <div style="background:#0d1b2a;border:1px solid #1e3a5f;border-radius:12px;padding:16px 20px;">
+        <div style="font-size:11px;color:#64748b;letter-spacing:1px;margin-bottom:6px;">DEPARTED TODAY</div>
+        <div style="font-size:28px;font-weight:800;color:#22c55e;" id="secStatOut">0</div>
+      </div>
+    </div>
+
+    <!-- Log Visitor button -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <div style="color:#fff;font-size:15px;font-weight:700;">Visitor Log</div>
+      <button onclick="openSecModal()" style="background:#f59e0b;color:#0a0f1a;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">+ Log New Visitor</button>
+    </div>
+
+    <!-- Search -->
+    <input id="secSearch" type="text" placeholder="Search visitor name or plate number..." onkeyup="renderSecLog()" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid #1e3a5f;background:#0d1b2a;color:#fff;font-size:13px;font-family:inherit;margin-bottom:14px;outline:none;"/>
+
+    <!-- Table -->
+    <div style="background:#0d1b2a;border:1px solid #1e3a5f;border-radius:12px;overflow:hidden;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="background:#0a1628;border-bottom:1px solid #1e3a5f;">
+            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">VISITOR NAME</th>
+            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">PHONE</th>
+            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">CAR PLATE</th>
+            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">PURPOSE</th>
+            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">VISITING</th>
+            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">TIME IN</th>
+            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">TIME OUT</th>
+            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">STATUS</th>
+            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="secLogTable"></tbody>
+      </table>
+      <div id="secEmptyMsg" style="display:none;text-align:center;padding:40px;color:#64748b;font-size:13px;">No visitors logged yet today.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECURITY LOG VISITOR MODAL -->
+<div class="modal-overlay" id="secModal" style="display:none;">
+  <div class="modal" style="max-width:500px;">
+    <div class="modal-header">
+      <span class="modal-title">🚗 Log New Visitor</span>
+      <button class="modal-close" onclick="closeModal('secModal')">✕</button>
+    </div>
+    <div class="modal-body" style="display:grid;gap:12px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="field"><label>Visitor Full Name *</label><input id="sec-name" type="text" placeholder="e.g. John Mensah"/></div>
+        <div class="field"><label>Phone Number *</label><input id="sec-phone" type="tel" placeholder="e.g. 0244000000"/></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="field"><label>Car Plate Number *</label><input id="sec-plate" type="text" placeholder="e.g. GR-1234-24" style="text-transform:uppercase;"/></div>
+        <div class="field"><label>Who Are They Visiting? *</label><input id="sec-visiting" type="text" placeholder="e.g. Room 3 / Manager"/></div>
+      </div>
+      <div class="field"><label>Purpose of Visit *</label>
+        <select id="sec-purpose">
+          <option value="">-- Select Purpose --</option>
+          <option>Enquiry</option>
+          <option>Delivery</option>
+          <option>Meeting</option>
+          <option>Visiting a Guest</option>
+          <option>Maintenance / Service</option>
+          <option>Restaurant / Bar</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label>Time In</label><input id="sec-timein" type="time"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('secModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitSecVisitor()">✓ Log Visitor</button>
+    </div>
+  </div>
+</div>
+
 <!-- MAIN APP -->
 <div id="app">
   <nav class="sidebar">
@@ -353,6 +460,7 @@ tr:hover td{background:#fafafa;}
       <div class="sb-item" onclick="showPage('events')"><span class="icon">🎉</span> Events & Venues</div>
       <div class="sb-item" onclick="showPage('restaurant')"><span class="icon">🍽️</span> Restaurant & Bar</div>
       <div class="sb-item" onclick="showPage('lostandfound')"><span class="icon">🔍</span> Lost & Found</div>
+      <div class="sb-item" id="secNavItem" onclick="showPage('security')"><span class="icon">🛡️</span> Security Gate</div>
       <div class="sb-section" id="adminSection">Admin</div>
       <div class="sb-item" id="staffNavItem" onclick="showPage('staff')"><span class="icon">👤</span> Staff Accounts</div>
       <div class="sb-item" onclick="showPage('reports')"><span class="icon">📈</span> Reports</div>
@@ -583,6 +691,26 @@ tr:hover td{background:#fafafa;}
         <div id="lfList"></div>
       </div>
 
+      <!-- SECURITY GATE ADMIN VIEW -->
+      <div class="page" id="page-security">
+        <div class="page-header">
+          <div><div class="page-title">🛡️ Security Gate Log</div><div class="page-sub">All visitor records logged by security staff</div></div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input id="secAdminSearch" type="text" placeholder="Search name or plate..." onkeyup="renderSecAdminLog()" style="padding:8px 12px;border-radius:7px;border:1px solid #e2e8f0;font-size:13px;font-family:inherit;width:220px;"/>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <div class="table-head">
+            <span class="table-title">Visitor Log</span>
+            <div style="display:flex;gap:8px;">
+              <span id="secAdminStats" style="font-size:12px;color:#64748b;align-self:center;"></span>
+            </div>
+          </div>
+          <table><thead><tr><th>Date</th><th>Visitor Name</th><th>Phone</th><th>Car Plate</th><th>Purpose</th><th>Visiting</th><th>Time In</th><th>Time Out</th><th>Shift</th><th>Status</th></tr></thead>
+          <tbody id="secAdminTable"></tbody></table>
+        </div>
+      </div>
+
       <!-- STAFF -->
       <div class="page" id="page-staff">
         <div class="page-header">
@@ -801,6 +929,7 @@ tr:hover td{background:#fafafa;}
           <select id="sf-access">
             <option value="staff">Staff (Basic)</option>
             <option value="housekeeper">Housekeeper (Cleaning only)</option>
+          <option value="security">Security (Gate Log only)</option>
             <option value="supervisor">Supervisor</option>
             <option value="admin">Admin (Full Access)</option>
           </select>
@@ -849,6 +978,7 @@ function loadStore() {
       reservations: saved.reservations || [],
       lostFound:    saved.lostFound    || [],
       activityLog:  saved.activityLog  || [],
+      visitorLog:   saved.visitorLog   || [],
     };
   } catch(e) { return getDefaultStore(); }
 }
@@ -926,6 +1056,8 @@ function getDefaultStore() {
       { id:'BGA-S02', name:'Manager', role:'Manager', access:'admin', pass:'manager123' },
       { id:'BGA-S03', name:'Owner', role:'Owner', access:'admin', pass:'owner123' },
       { id:'BGA-S04', name:'Housekeeper', role:'Housekeeper', access:'housekeeper', pass:'clean123' },
+      { id:'BGA-S05', name:'Day Security', role:'Security Officer', access:'security', pass:'security123' },
+      { id:'BGA-S06', name:'Night Security', role:'Security Officer', access:'security', pass:'nightsec123' },
     ],
     rooms: [
       { id:'APT-01', name:'Apt 01', type:'2-Bedroom', category:'Apartment', status:'available', guest:'', checkIn:'', checkOut:'', bookingRef:'' },
@@ -949,6 +1081,7 @@ function getDefaultStore() {
     reservations: [],
     lostFound: [],
     activityLog: [],
+    visitorLog: [],
   };
 }
 
@@ -1072,6 +1205,21 @@ function doLogin() {
     return;
   }
 
+  // SECURITY gets separate view
+  if(staff.access === 'security') {
+    document.getElementById('secApp').style.display = 'block';
+    document.getElementById('secUserName').textContent = staff.name + ' — ' + staff.role;
+    const shift = staff.name.toLowerCase().includes('night') ? '🌙 Night Shift' : '☀️ Day Shift';
+    document.getElementById('secShiftBadge').textContent = shift;
+    setInterval(() => {
+      const now = new Date();
+      document.getElementById('secClock').textContent = now.toLocaleTimeString('en-GB');
+    }, 1000);
+    renderSecLog();
+    renderSecStats();
+    return;
+  }
+
   // Normal staff/admin
   document.getElementById('app').style.display = 'block';
   document.getElementById('sbAvatar').textContent = staff.name.charAt(0).toUpperCase();
@@ -1092,6 +1240,7 @@ function appLogout() {
   currentUser = null;
   document.getElementById('app').style.display = 'none';
   document.getElementById('hkApp').style.display = 'none';
+  document.getElementById('secApp').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('loginId').value = '';
   document.getElementById('loginPass').value = '';
@@ -1829,7 +1978,7 @@ function renderStaff() {
   tbody.innerHTML=DB.staff.map(s=>`<tr>
     <td style="font-family:monospace;font-size:12px;font-weight:600;">${s.id}</td>
     <td><strong>${s.name}</strong></td><td>${s.role}</td>
-    <td><span class="badge ${s.access==='admin'?'purple':s.access==='housekeeper'?'blue':s.access==='supervisor'?'teal':'gray'}">${s.access}</span></td>
+    <td><span class="badge ${s.access==='admin'?'purple':s.access==='housekeeper'?'blue':s.access==='security'?'amber':s.access==='supervisor'?'teal':'gray'}">${s.access}</span></td>
     <td><span class="badge green">Active</span></td>
     <td>${currentUser&&currentUser.access==='admin'?`<button class="btn btn-sm btn-danger" onclick="removeStaff('${s.id}')">Remove</button>`:'—'}</td>
   </tr>`).join('');
