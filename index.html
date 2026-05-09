@@ -7,11 +7,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Bruton HMS"/>
-<meta name="application-name" content="Bruton HMS"/>
 <meta name="theme-color" content="#0a2a2a"/>
-<meta name="description" content="Bruton Gardens & Apartments — Hotel Management System"/>
 <link rel="manifest" href="manifest.json"/>
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%230a2a2a'/%3E%3Crect x='0' y='0' width='12' height='192' rx='4' fill='%2300b4b4'/%3E%3Ctext x='96' y='100' font-family='Arial' font-weight='bold' font-size='48' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3Ctext x='96' y='148' font-family='Arial' font-size='16' fill='%2300b4b4' text-anchor='middle'%3EHMS%3C/text%3E%3C/svg%3E"/>
 <title>Bruton Gardens & Apartments — HMS v3.0</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -345,10 +342,9 @@ tr:hover td{background:#fafafa;}
 
 <!-- SECURITY GATE APP -->
 <div id="secApp" style="display:none;min-height:100vh;background:#0a0f1a;font-family:'Plus Jakarta Sans',sans-serif;">
-  <!-- Header -->
   <div style="background:#0d1b2a;border-bottom:2px solid #1e3a5f;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;">
     <div style="display:flex;align-items:center;gap:12px;">
-      <div style="background:#f59e0b;color:#0a0f1a;font-weight:800;font-size:11px;padding:4px 10px;border-radius:5px;letter-spacing:1px;">BRUTON</div>
+      <div style="background:#f59e0b;color:#0a0f1a;font-weight:800;font-size:11px;padding:4px 10px;border-radius:5px;">BRUTON</div>
       <div>
         <div style="color:#fff;font-weight:700;font-size:16px;">Security Gate Log</div>
         <div style="color:#64748b;font-size:11px;" id="secShiftBadge">Day Shift</div>
@@ -362,9 +358,7 @@ tr:hover td{background:#fafafa;}
       <button onclick="appLogout()" style="background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.3);color:#f87171;border-radius:7px;padding:7px 14px;font-size:12px;cursor:pointer;font-family:inherit;">Sign Out</button>
     </div>
   </div>
-
   <div style="padding:20px 24px;max-width:1100px;margin:auto;">
-    <!-- Stats row -->
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;">
       <div style="background:#0d1b2a;border:1px solid #1e3a5f;border-radius:12px;padding:16px 20px;">
         <div style="font-size:11px;color:#64748b;letter-spacing:1px;margin-bottom:6px;">TODAY'S VISITORS</div>
@@ -379,65 +373,50 @@ tr:hover td{background:#fafafa;}
         <div style="font-size:28px;font-weight:800;color:#22c55e;" id="secStatOut">0</div>
       </div>
     </div>
-
-    <!-- Log Visitor button -->
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
       <div style="color:#fff;font-size:15px;font-weight:700;">Visitor Log</div>
       <button onclick="openSecModal()" style="background:#f59e0b;color:#0a0f1a;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">+ Log New Visitor</button>
     </div>
-
-    <!-- Search -->
-    <input id="secSearch" type="text" placeholder="Search visitor name or plate number..." onkeyup="renderSecLog()" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid #1e3a5f;background:#0d1b2a;color:#fff;font-size:13px;font-family:inherit;margin-bottom:14px;outline:none;"/>
-
-    <!-- Table -->
+    <input id="secSearch" type="text" placeholder="Search visitor name or plate..." onkeyup="renderSecLog()" style="width:100%;padding:10px 14px;border-radius:8px;border:1px solid #1e3a5f;background:#0d1b2a;color:#fff;font-size:13px;font-family:inherit;margin-bottom:14px;outline:none;"/>
     <div style="background:#0d1b2a;border:1px solid #1e3a5f;border-radius:12px;overflow:hidden;">
       <table style="width:100%;border-collapse:collapse;">
-        <thead>
-          <tr style="background:#0a1628;border-bottom:1px solid #1e3a5f;">
-            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">VISITOR NAME</th>
-            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">PHONE</th>
-            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">CAR PLATE</th>
-            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">PURPOSE</th>
-            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">VISITING</th>
-            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">TIME IN</th>
-            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">TIME OUT</th>
-            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">STATUS</th>
-            <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;font-weight:600;">ACTION</th>
-          </tr>
-        </thead>
+        <thead><tr style="background:#0a1628;border-bottom:1px solid #1e3a5f;">
+          <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;">VISITOR</th>
+          <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;">PHONE</th>
+          <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;">CAR PLATE</th>
+          <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;">PURPOSE</th>
+          <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;">VISITING</th>
+          <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;">TIME IN</th>
+          <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;">TIME OUT</th>
+          <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;">STATUS</th>
+          <th style="padding:12px 14px;text-align:left;font-size:10px;color:#64748b;letter-spacing:1px;">ACTION</th>
+        </tr></thead>
         <tbody id="secLogTable"></tbody>
       </table>
-      <div id="secEmptyMsg" style="display:none;text-align:center;padding:40px;color:#64748b;font-size:13px;">No visitors logged yet today.</div>
+      <div id="secEmptyMsg" style="display:none;text-align:center;padding:40px;color:#64748b;font-size:13px;">No visitors logged yet.</div>
     </div>
   </div>
 </div>
 
-<!-- SECURITY LOG VISITOR MODAL -->
+<!-- SECURITY MODAL -->
 <div class="modal-overlay" id="secModal">
   <div class="modal" style="max-width:500px;">
-    <div class="modal-header">
-      <span class="modal-title">🚗 Log New Visitor</span>
-      <button class="modal-close" onclick="closeModal('secModal')">✕</button>
-    </div>
+    <div class="modal-header"><span class="modal-title">🚗 Log New Visitor</span><button class="modal-close" onclick="closeModal('secModal')">✕</button></div>
     <div class="modal-body" style="display:grid;gap:12px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div class="field"><label>Visitor Full Name *</label><input id="sec-name" type="text" placeholder="e.g. John Mensah"/></div>
         <div class="field"><label>Phone Number *</label><input id="sec-phone" type="tel" placeholder="e.g. 0244000000"/></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div class="field"><label>Car Plate Number *</label><input id="sec-plate" type="text" placeholder="e.g. GR-1234-24" style="text-transform:uppercase;"/></div>
+        <div class="field"><label>Car Plate Number *</label><input id="sec-plate" type="text" placeholder="e.g. GR-1234-24"/></div>
         <div class="field"><label>Who Are They Visiting? *</label><input id="sec-visiting" type="text" placeholder="e.g. Room 3 / Manager"/></div>
       </div>
       <div class="field"><label>Purpose of Visit *</label>
         <select id="sec-purpose">
           <option value="">-- Select Purpose --</option>
-          <option>Enquiry</option>
-          <option>Delivery</option>
-          <option>Meeting</option>
-          <option>Visiting a Guest</option>
-          <option>Maintenance / Service</option>
-          <option>Restaurant / Bar</option>
-          <option>Other</option>
+          <option>Enquiry</option><option>Delivery</option><option>Meeting</option>
+          <option>Visiting a Guest</option><option>Maintenance / Service</option>
+          <option>Restaurant / Bar</option><option>Other</option>
         </select>
       </div>
       <div class="field"><label>Time In</label><input id="sec-timein" type="time"/></div>
@@ -469,7 +448,6 @@ tr:hover td{background:#fafafa;}
       <div class="sb-item" onclick="showPage('events')"><span class="icon">🎉</span> Events & Venues</div>
       <div class="sb-item" onclick="showPage('restaurant')"><span class="icon">🍽️</span> Restaurant & Bar</div>
       <div class="sb-item" onclick="showPage('lostandfound')"><span class="icon">🔍</span> Lost & Found</div>
-      <div class="sb-item" id="secNavItem" onclick="showPage('security')"><span class="icon">🛡️</span> Security Gate</div>
       <div class="sb-section" id="adminSection">Admin</div>
       <div class="sb-item" id="staffNavItem" onclick="showPage('staff')"><span class="icon">👤</span> Staff Accounts</div>
       <div class="sb-item" onclick="showPage('reports')"><span class="icon">📈</span> Reports</div>
@@ -482,8 +460,8 @@ tr:hover td{background:#fafafa;}
           <div class="role" id="sbRole">Reception</div>
         </div>
       </div>
-      <div style="display:flex;gap:6px;margin-bottom:6px;"><button onclick="backupData()" style="flex:1;background:rgba(0,180,180,.1);border:1px solid rgba(0,180,180,.25);color:#5ababa;border-radius:6px;padding:6px 4px;font-size:11px;cursor:pointer;font-family:inherit;" title="Download all data as backup file">💾 Backup</button><button onclick="restoreData()" style="flex:1;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:#b8860b;border-radius:6px;padding:6px 4px;font-size:11px;cursor:pointer;font-family:inherit;" title="Restore data from backup file">📂 Restore</button></div>
-      <button class="logout-btn" onclick="appLogout()">Sign Out</button>
+      <div style="display:flex;gap:6px;margin-bottom:6px;"><button onclick="backupData()" style="flex:1;background:rgba(0,180,180,.1);border:1px solid rgba(0,180,180,.25);color:#5ababa;border-radius:6px;padding:6px 4px;font-size:11px;cursor:pointer;font-family:inherit;">💾 Backup</button><button onclick="restoreData()" style="flex:1;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:#b8860b;border-radius:6px;padding:6px 4px;font-size:11px;cursor:pointer;font-family:inherit;">📂 Restore</button></div>
+<button class="logout-btn" onclick="appLogout()">Sign Out</button>
     </div>
   </nav>
 
@@ -700,23 +678,25 @@ tr:hover td{background:#fafafa;}
         <div id="lfList"></div>
       </div>
 
-      <!-- SECURITY GATE ADMIN VIEW -->
+      <!-- SECURITY ADMIN VIEW -->
       <div class="page" id="page-security">
         <div class="page-header">
           <div><div class="page-title">🛡️ Security Gate Log</div><div class="page-sub">All visitor records logged by security staff</div></div>
-          <div style="display:flex;gap:8px;align-items:center;">
-            <input id="secAdminSearch" type="text" placeholder="Search name or plate..." onkeyup="renderSecAdminLog()" style="padding:8px 12px;border-radius:7px;border:1px solid #e2e8f0;font-size:13px;font-family:inherit;width:220px;"/>
-          </div>
+          <input id="secAdminSearch" type="text" placeholder="Search name or plate..." onkeyup="renderSecAdminLog()" style="padding:8px 12px;border-radius:7px;border:1px solid #e2e8f0;font-size:13px;font-family:inherit;width:220px;"/>
         </div>
         <div class="table-wrap">
-          <div class="table-head">
-            <span class="table-title">Visitor Log</span>
-            <div style="display:flex;gap:8px;">
-              <span id="secAdminStats" style="font-size:12px;color:#64748b;align-self:center;"></span>
-            </div>
-          </div>
-          <table><thead><tr><th>Date</th><th>Visitor Name</th><th>Phone</th><th>Car Plate</th><th>Purpose</th><th>Visiting</th><th>Time In</th><th>Time Out</th><th>Shift</th><th>Status</th></tr></thead>
+          <div class="table-head"><span class="table-title">Visitor Log</span><span id="secAdminStats" style="font-size:12px;color:#64748b;"></span></div>
+          <table><thead><tr><th>Date</th><th>Visitor</th><th>Phone</th><th>Plate</th><th>Purpose</th><th>Visiting</th><th>Time In</th><th>Time Out</th><th>Shift</th><th>Status</th></tr></thead>
           <tbody id="secAdminTable"></tbody></table>
+        </div>
+        <div style="margin-top:2rem;padding:1.25rem;background:#fff;border:1.5px dashed #fcd34d;border-radius:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+            <div>
+              <div style="font-size:14px;font-weight:700;color:#92400e;">🧹 Remove Duplicate Records</div>
+              <div style="font-size:12px;color:#64748b;margin-top:3px;">Removes repeated check-in entries. Real guest records are never touched.</div>
+            </div>
+            <button onclick="removeDuplicates()" style="background:#f59e0b;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">🧹 Remove Duplicates</button>
+          </div>
         </div>
       </div>
 
@@ -748,15 +728,6 @@ tr:hover td{background:#fafafa;}
           <div class="table-head"><span class="table-title">All Check-In Records</span></div>
           <table><thead><tr><th>Ref</th><th>Guest</th><th>Room</th><th>Check-In</th><th>Check-Out</th><th>Total (GHS)</th><th>Status</th></tr></thead>
           <tbody id="reportsTable"></tbody></table>
-        </div>
-        <div style="margin-top:2rem;padding:1.25rem;background:#fff;border:1.5px dashed #fcd34d;border-radius:14px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-            <div>
-              <div style="font-size:14px;font-weight:700;color:#92400e;">🧹 Remove Duplicate Records</div>
-              <div style="font-size:12px;color:#64748b;margin-top:3px;">Scans all check-in records and removes duplicates — keeps the first entry for each guest and deletes the repeats. Real guest records are never touched.</div>
-            </div>
-            <button onclick="removeDuplicates()" style="background:#f59e0b;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">🧹 Remove Duplicates</button>
-          </div>
         </div>
       </div>
 
@@ -938,7 +909,6 @@ tr:hover td{background:#fafafa;}
           <select id="sf-access">
             <option value="staff">Staff (Basic)</option>
             <option value="housekeeper">Housekeeper (Cleaning only)</option>
-          <option value="security">Security (Gate Log only)</option>
             <option value="supervisor">Supervisor</option>
             <option value="admin">Admin (Full Access)</option>
           </select>
@@ -956,289 +926,37 @@ tr:hover td{background:#fafafa;}
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- HK target variable for clean modal -->
-
-
-
-
-
-
 <script>
-
 // ══════════════════════════════════════════
 // DATA STORE
 // ══════════════════════════════════════════
-var STORE_KEY = 'bruton_hms_v3';
+const STORE_KEY = 'bruton_hms_v3';
 
-function dedup(arr, key) {
-  const seen = new Set();
-  return arr.filter(item => {
-    const val = item[key];
-    if (!val || seen.has(val)) return false;
-    seen.add(val); return true;
-  });
-}
 function loadStore() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORE_KEY));
-    if (!saved) return getDefaultStore();
+    if(!saved) return getDefaultStore();
     const def = getDefaultStore();
-    // Always merge staff: keep saved custom staff but ensure all default staff exist
     const savedIds = (saved.staff||[]).map(s=>s.id);
-    const mergedStaff = [
-      ...(saved.staff||[]),
-      ...def.staff.filter(s => !savedIds.includes(s.id))
-    ];
+    const mergedStaff = [...(saved.staff||[]), ...def.staff.filter(s=>!savedIds.includes(s.id))];
     return {
-      staff:        mergedStaff,
-      rooms:        saved.rooms        || def.rooms,
-      checkIns:     dedup(saved.checkIns     || [], 'bookingRef'),
-      checkOuts:    dedup(saved.checkOuts    || [], 'bookingRef'),
-      guestHistory: dedup(saved.guestHistory || [], 'email'),
-      events:       saved.events       || [],
+      staff: mergedStaff,
+      rooms: saved.rooms || def.rooms,
+      checkIns: saved.checkIns || [],
+      checkOuts: saved.checkOuts || [],
+      guestHistory: saved.guestHistory || [],
+      events: saved.events || [],
       housekeeping: saved.housekeeping || [],
-      maintenance:  saved.maintenance  || [],
+      maintenance: saved.maintenance || [],
       reservations: saved.reservations || [],
-      lostFound:    saved.lostFound    || [],
-      activityLog:  saved.activityLog  || [],
-      visitorLog:   saved.visitorLog   || [],
+      lostFound: saved.lostFound || [],
+      activityLog: saved.activityLog || [],
+      visitorLog: saved.visitorLog || [],
     };
   } catch(e) { return getDefaultStore(); }
 }
-
-// ══════════════════════════════════════════
-// GOOGLE SHEETS SYNC
-// ══════════════════════════════════════════
-var SHEET_URL = 'https://script.google.com/macros/s/AKfycby_045HKqBOTHr__xD25QcK3HQ2RQnSXI6tR_8UddVvij6zX_L37H5MCMCPzBPCuf4o/exec';
-
-function sendToSheets(data) {
-  try {
-    fetch(SHEET_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
-    }).catch(function(err) {
-      console.warn('Sheets sync failed (offline?):', err);
-    });
-  } catch(e) {
-    console.warn('Sheets sync error:', e);
-  }
-}
-
-function syncVisitorToSheets(data) {
-  sendToSheets({...data, action: 'visitorLog'});
-}
-
 function saveStore() {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify(DB)); }
-  catch(e) { console.warn('localStorage save failed:', e); }
-}
-
-function openModal(id) {
-  var el = document.getElementById(id);
-  if(el) el.classList.add('show');
-}
-function closeModal(id) {
-  var el = document.getElementById(id);
-  if(el) el.classList.remove('show');
-}
-
-function backupData() {
-  const blob = new Blob([JSON.stringify(DB, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'BrutonHMS_Backup_' + new Date().toISOString().split('T')[0] + '.json';
-  a.click();
-  toast('✅ Backup downloaded successfully', 'success');
-}
-function restoreData() {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = '.json';
-  input.onchange = e => {
-    const file = e.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      try {
-        const restored = JSON.parse(ev.target.result);
-        if(!restored.checkIns || !restored.rooms) { toast('Invalid backup file', 'error'); return; }
-        Object.assign(DB, restored);
-        saveStore();
-        toast('✅ Data restored — reloading…', 'success');
-        setTimeout(() => location.reload(), 1500);
-      } catch(err) { toast('Could not read backup file', 'error'); }
-    };
-    reader.readAsText(file);
-  };
-  input.click();
-}
-
-// ══════════════════════════════════════════
-// SECURITY GATE FUNCTIONS
-// ══════════════════════════════════════════
-function openSecModal() {
-  const now = new Date();
-  const hh = String(now.getHours()).padStart(2,'0');
-  const mm = String(now.getMinutes()).padStart(2,'0');
-  document.getElementById('sec-timein').value = hh + ':' + mm;
-  document.getElementById('sec-name').value = '';
-  document.getElementById('sec-phone').value = '';
-  document.getElementById('sec-plate').value = '';
-  document.getElementById('sec-visiting').value = '';
-  document.getElementById('sec-purpose').value = '';
-  document.getElementById('secModal').classList.add('show');
-}
-
-function submitSecVisitor() {
-  const name     = document.getElementById('sec-name').value.trim();
-  const phone    = document.getElementById('sec-phone').value.trim();
-  const plate    = document.getElementById('sec-plate').value.trim().toUpperCase();
-  const visiting = document.getElementById('sec-visiting').value.trim();
-  const purpose  = document.getElementById('sec-purpose').value;
-  const timeIn   = document.getElementById('sec-timein').value;
-  if(!name || !phone || !plate || !visiting || !purpose) {
-    toast('Please fill in all required fields', 'error'); return;
-  }
-  const today = new Date().toISOString().split('T')[0];
-  const entry = {
-    id: 'VIS-' + Date.now(),
-    name, phone, plate, visiting, purpose, timeIn,
-    timeOut: '', date: today,
-    loggedBy: currentUser.name,
-    shift: currentUser.name.toLowerCase().includes('night') ? 'Night' : 'Day',
-    status: 'On Premises'
-  };
-  DB.visitorLog.push(entry);
-  saveStore();
-  syncVisitorToSheets(entry);
-  closeModal('secModal');
-  renderSecLog();
-  renderSecStats();
-  toast('✅ Visitor logged successfully', 'success');
-}
-
-function logVisitorOut(id) {
-  const entry = DB.visitorLog.find(v => v.id === id);
-  if(!entry) return;
-  const now = new Date();
-  entry.timeOut = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-  entry.status = 'Departed';
-  saveStore();
-  renderSecLog();
-  renderSecStats();
-  toast('✅ Visitor departure recorded', 'success');
-}
-
-function renderSecStats() {
-  const today = new Date().toISOString().split('T')[0];
-  const todayVisitors = DB.visitorLog.filter(v => v.date === today);
-  const onPremises = todayVisitors.filter(v => v.status === 'On Premises');
-  const departed   = todayVisitors.filter(v => v.status === 'Departed');
-  const t = document.getElementById('secStatTotal');
-  const i = document.getElementById('secStatIn');
-  const o = document.getElementById('secStatOut');
-  if(t) t.textContent = todayVisitors.length;
-  if(i) i.textContent = onPremises.length;
-  if(o) o.textContent = departed.length;
-}
-
-function renderSecLog() {
-  const today = new Date().toISOString().split('T')[0];
-  const search = (document.getElementById('secSearch')||{value:''}).value.toLowerCase();
-  const tbody = document.getElementById('secLogTable');
-  const emptyMsg = document.getElementById('secEmptyMsg');
-  if(!tbody) return;
-  let logs = [...DB.visitorLog].sort((a,b) => b.id.localeCompare(a.id));
-  if(search) logs = logs.filter(v =>
-    v.name.toLowerCase().includes(search) ||
-    v.plate.toLowerCase().includes(search) ||
-    v.phone.includes(search)
-  );
-  if(logs.length === 0) {
-    tbody.innerHTML = '';
-    if(emptyMsg) emptyMsg.style.display = 'block';
-    return;
-  }
-  if(emptyMsg) emptyMsg.style.display = 'none';
-  tbody.innerHTML = logs.map(v => {
-    const isToday = v.date === today;
-    const sc = v.status === 'On Premises' ? '#ef4444' : '#22c55e';
-    return `<tr style="border-bottom:1px solid #1e3a5f;${!isToday?'opacity:0.6':''}">
-      <td style="padding:12px 14px;color:#fff;font-weight:600;font-size:13px;">${v.name}</td>
-      <td style="padding:12px 14px;color:#94a3b8;font-size:12px;">${v.phone}</td>
-      <td style="padding:12px 14px;"><span style="background:#1e3a5f;color:#f59e0b;font-weight:700;font-size:12px;padding:3px 8px;border-radius:5px;letter-spacing:1px;">${v.plate}</span></td>
-      <td style="padding:12px 14px;color:#94a3b8;font-size:12px;">${v.purpose}</td>
-      <td style="padding:12px 14px;color:#94a3b8;font-size:12px;">${v.visiting}</td>
-      <td style="padding:12px 14px;color:#f59e0b;font-size:12px;font-weight:600;">${v.timeIn||'—'}</td>
-      <td style="padding:12px 14px;color:#22c55e;font-size:12px;font-weight:600;">${v.timeOut||'—'}</td>
-      <td style="padding:12px 14px;"><span style="background:${sc}22;color:${sc};font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;">${v.status}</span></td>
-      <td style="padding:12px 14px;">
-        ${v.status==='On Premises'?`<button onclick="logVisitorOut('${v.id}')" style="background:#22c55e22;border:1px solid #22c55e44;color:#22c55e;border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer;font-family:inherit;font-weight:600;">Log Out</button>`:'<span style="color:#374151;font-size:11px;">Departed</span>'}
-      </td>
-    </tr>`;
-  }).join('');
-}
-
-function renderSecAdminLog() {
-  const search = (document.getElementById('secAdminSearch')||{value:''}).value.toLowerCase();
-  const tbody = document.getElementById('secAdminTable');
-  const statsEl = document.getElementById('secAdminStats');
-  if(!tbody) return;
-  let logs = [...DB.visitorLog].sort((a,b) => b.id.localeCompare(a.id));
-  if(search) logs = logs.filter(v =>
-    v.name.toLowerCase().includes(search) ||
-    v.plate.toLowerCase().includes(search) ||
-    v.phone.includes(search)
-  );
-  if(statsEl) statsEl.textContent = logs.length + ' records';
-  if(logs.length===0){ tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:30px;color:#94a3b8;">No visitor records found.</td></tr>'; return; }
-  tbody.innerHTML = logs.map(v=>`<tr>
-    <td>${v.date}</td>
-    <td style="font-weight:600;">${v.name}</td>
-    <td>${v.phone}</td>
-    <td><span class="badge amber">${v.plate}</span></td>
-    <td>${v.purpose}</td>
-    <td>${v.visiting}</td>
-    <td style="font-weight:600;color:#f59e0b;">${v.timeIn||'—'}</td>
-    <td style="font-weight:600;color:#22c55e;">${v.timeOut||'—'}</td>
-    <td><span class="badge ${v.shift==='Night'?'purple':'teal'}">${v.shift} Shift</span></td>
-    <td><span class="badge ${v.status==='On Premises'?'red':'green'}">${v.status}</span></td>
-  </tr>`).join('');
-}
-
-function removeDuplicates() {
-  const beforeCount = DB.checkIns.length;
-
-  // Keep only first unique booking ref in checkIns
-  const seenRefs = new Set();
-  DB.checkIns = DB.checkIns.filter(c => {
-    if(seenRefs.has(c.bookingRef)) return false;
-    seenRefs.add(c.bookingRef); return true;
-  });
-
-  // Keep only first unique email in guestHistory
-  const seenEmails = new Set();
-  DB.guestHistory = DB.guestHistory.filter(g => {
-    if(seenEmails.has(g.email)) return false;
-    seenEmails.add(g.email); return true;
-  });
-
-  // Fix room statuses — if a room has no active check-in, reset it to available
-  DB.rooms.forEach(r => {
-    const active = DB.checkIns.find(c => c.room === r.id && c.status === "Checked In");
-    if(!active && r.status === "occupied") {
-      r.status = "available"; r.guest = ""; r.checkIn = ""; r.checkOut = ""; r.bookingRef = "";
-    }
-  });
-
-  const removed = beforeCount - DB.checkIns.length;
-  saveStore();
-  if(removed > 0) {
-    toast("✅ Removed " + removed + " duplicate(s) — reloading…", "success");
-    setTimeout(() => location.reload(), 1500);
-  } else {
-    toast("✅ No duplicates found — all records are clean!", "success");
-  }
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(DB)); } catch(e) {}
 }
 function getDefaultStore() {
   return {
@@ -1277,7 +995,7 @@ function getDefaultStore() {
 }
 
 // MAINTENANCE CHECKLIST by category
-var MAINTENANCE_ITEMS = {
+const MAINTENANCE_ITEMS = {
   'Electrical': [
     { id:'el1', label:'Light bulb replacement', priority:'low' },
     { id:'el2', label:'Power socket not working', priority:'high' },
@@ -1324,7 +1042,6 @@ var MAINTENANCE_ITEMS = {
 var DB = loadStore();
 var currentUser = null;
 var ciCurrentStep = 1;
-var ciSubmitting = false;
 let checkoutTarget = null;
 var hkCleanTarget = null;
 var maintTarget = null;
@@ -1384,18 +1101,6 @@ function doLogin() {
   currentUser = staff;
   document.getElementById('loginScreen').style.display = 'none';
 
-  // HOUSEKEEPER gets separate view
-  if(staff.access === 'housekeeper') {
-    document.getElementById('hkApp').style.display = 'block';
-    document.getElementById('hkUserName').textContent = staff.name;
-    const g = getGreeting();
-    document.getElementById('hkGreetBanner').textContent = g.text + ' ' + staff.name + '! Here are the rooms that need your attention today.';
-    setInterval(updateClock, 1000);
-    updateClock();
-    renderHKTasks();
-    return;
-  }
-
   // SECURITY gets separate view
   if(staff.access === 'security') {
     document.getElementById('secApp').style.display = 'block';
@@ -1411,12 +1116,24 @@ function doLogin() {
     return;
   }
 
+  // HOUSEKEEPER gets separate view
+  if(staff.access === 'housekeeper') {
+    document.getElementById('hkApp').style.display = 'block';
+    document.getElementById('hkUserName').textContent = staff.name;
+    const g = getGreeting();
+    document.getElementById('hkGreetBanner').textContent = g.text + ' ' + staff.name + '! Here are the rooms that need your attention today.';
+    setInterval(updateClock, 1000);
+    updateClock();
+    renderHKTasks();
+    return;
+  }
+
   // Normal staff/admin
   document.getElementById('app').style.display = 'block';
   document.getElementById('sbAvatar').textContent = staff.name.charAt(0).toUpperCase();
   document.getElementById('sbName').textContent = staff.name;
   document.getElementById('sbRole').textContent = staff.role;
-  document.getElementById('dashGreet').textContent = 'Welcome back, '+staff.name;
+  document.getElementById('dashGreet').textContent = `Welcome back, ${staff.name}`;
 
   if (staff.access !== 'admin') {
     document.getElementById('staffNavItem').style.display = 'none';
@@ -1441,54 +1158,6 @@ function appLogout() {
 // ══════════════════════════════════════════
 // APP INIT
 // ══════════════════════════════════════════
-
-// ── UTILITY FUNCTIONS ──────────────────────────
-function genRef() {
-  return 'BG-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
-}
-
-function getChip(group) {
-  // Find all chips that call solo(this, group) and check which one is 'on'
-  var allChips = document.querySelectorAll('.chip');
-  for(var i=0; i<allChips.length; i++) {
-    var chip = allChips[i];
-    var onclick = chip.getAttribute('onclick') || '';
-    if(onclick.indexOf("'" + group + "'") !== -1 && chip.classList.contains('on')) {
-      return chip.textContent.trim();
-    }
-  }
-  return '';
-}
-
-function solo(el, group) {
-  // Deselect all chips in same group
-  var allChips = document.querySelectorAll('.chip');
-  for(var i=0; i<allChips.length; i++) {
-    var chip = allChips[i];
-    var onclick = chip.getAttribute('onclick') || '';
-    if(onclick.indexOf("'" + group + "'") !== -1) {
-      chip.classList.remove('on');
-    }
-  }
-  // Select clicked chip
-  el.classList.add('on');
-}
-
-function markClean(roomId) {
-  var r = DB.rooms.find(function(x){return x.id===roomId;});
-  if(!r) return;
-  if(confirm('Mark ' + roomId + ' as clean and available?')) {
-    r.status = 'available';
-    r.guest = ''; r.checkIn = ''; r.checkOut = ''; r.bookingRef = '';
-    DB.housekeeping.filter(function(h){return h.roomId===roomId && h.status!=='Completed';})
-      .forEach(function(h){h.status='Completed'; h.completedAt=new Date().toLocaleString('en-GB'); h.completedBy=currentUser.name;});
-    saveStore();
-    renderHKTasks();
-    closeModal('hkCleanModal');
-    toast('✅ ' + roomId + ' marked as clean and available', 'success');
-  }
-}
-
 function initApp() {
   renderRooms();
   renderDashboard();
@@ -1530,7 +1199,7 @@ function calcNights() {
 const pageTitles = {
   dashboard:'Dashboard', rooms:'Room Status', checkin:'Guest Check-In',
   checkout:'Guest Check-Out', guests:'Guest History', events:'Events & Venues',
-  restaurant:'Restaurant & Bar', lostandfound:'Lost & Found',
+  restaurant:'Restaurant & Bar', lostandfound:'Lost & Found', security:'Security Gate',
   staff:'Staff Accounts', reports:'Reports'
 };
 function showPage(name) {
@@ -1549,6 +1218,7 @@ function showPage(name) {
   if(name==='reports') renderReports();
   if(name==='restaurant') renderRestaurant();
   if(name==='lostandfound') renderLostFound();
+  if(name==='security') renderSecAdminLog();
 }
 
 // ══════════════════════════════════════════
@@ -1570,42 +1240,34 @@ function renderRooms(filter) {
 function filterRooms(f) { renderRooms(f); }
 
 function openRoomModal(roomId) {
-  var r = DB.rooms.find(function(x){return x.id===roomId;});
+  const r = DB.rooms.find(x=>x.id===roomId);
   if(!r) return;
-  var activeMaint = DB.maintenance.filter(function(m){return m.roomId===roomId&&m.status!=='Resolved';});
-  var statusColor = r.status==='occupied'?'red':r.status==='maintenance'?'amber':r.status==='cleaning'?'blue':'green';
-  document.getElementById('roomModalTitle').textContent = r.id + ' — ' + r.type;
-  var body = '';
-  body += '<div class="info-row"><span class="info-label">Status</span><span class="badge '+statusColor+'">'+r.status.toUpperCase()+'</span></div>';
-  body += '<div class="info-row"><span class="info-label">Category</span><span class="info-val">'+(r.category||'')+'</span></div>';
-  if(r.guest) {
-    body += '<div class="info-row"><span class="info-label">Current Guest</span><span class="info-val">'+r.guest+'</span></div>';
-    body += '<div class="info-row"><span class="info-label">Check-In</span><span class="info-val">'+(r.checkIn||'—')+'</span></div>';
-    body += '<div class="info-row"><span class="info-label">Check-Out</span><span class="info-val">'+(r.checkOut||'—')+'</span></div>';
-    body += '<div class="info-row"><span class="info-label">Booking Ref</span><span class="info-val">'+(r.bookingRef||'—')+'</span></div>';
-  } else {
-    body += '<div style="color:var(--muted);font-size:13px;padding:.5rem 0;">No current guest.</div>';
-  }
-  if(activeMaint.length) {
-    body += '<div class="alert amber" style="margin-top:.75rem;font-size:12px;"><strong>⚠ '+activeMaint.length+' maintenance item(s) open:</strong><ul style="margin:.5rem 0 0 1rem;">';
-    activeMaint.forEach(function(m){body+='<li>'+(m.items||[]).join(', ')+' ('+m.priority+')</li>';});
-    body += '</ul></div>';
-  }
-  document.getElementById('roomModalBody').innerHTML = body;
+  // Get active maintenance
+  const activeMaint = DB.maintenance.filter(m=>m.roomId===roomId&&m.status!=='Resolved');
+  document.getElementById('roomModalTitle').textContent = `${r.id} — ${r.type}`;
+  document.getElementById('roomModalBody').innerHTML = `
+    <div class="info-row"><span class="info-label">Status</span><span class="badge ${r.status==='occupied'?'red':r.status==='maintenance'?'amber':r.status==='cleaning'?'blue':'green'}">${r.status.toUpperCase()}</span></div>
+    <div class="info-row"><span class="info-label">Category</span><span class="info-val">${r.category}</span></div>
+    ${r.guest ? `
+    <div class="info-row"><span class="info-label">Current Guest</span><span class="info-val">${r.guest}</span></div>
+    <div class="info-row"><span class="info-label">Check-In</span><span class="info-val">${r.checkIn}</span></div>
+    <div class="info-row"><span class="info-label">Check-Out</span><span class="info-val">${r.checkOut}</span></div>
+    <div class="info-row"><span class="info-label">Booking Ref</span><span class="info-val">${r.bookingRef}</span></div>
+    ` : '<div style="color:var(--muted);font-size:13px;padding:.5rem 0;">No current guest.</div>'}
+    ${activeMaint.length ? `<div class="alert amber" style="margin-top:.75rem;font-size:12px;"><strong>⚠ ${activeMaint.length} maintenance item(s) open:</strong><ul style="margin:.5rem 0 0 1rem;">${activeMaint.map(m=>`<li>${m.items.join(', ')} (${m.priority})</li>`).join('')}</ul></div>` : ''}`;
 
-  var rm = 'roomModal';
-  var btns = '<button class="btn btn-secondary" onclick="closeModal(' + JSON.stringify(rm) + ')">Close</button>';
+  let btns = `<button class="btn btn-secondary" onclick="closeModal('roomModal')">Close</button>`;
   if(r.status==='available'||r.status==='occupied') {
-    btns += '<button class="btn btn-amber" onclick="closeModal(' + JSON.stringify(rm) + ');openMaintModal(' + JSON.stringify(r.id) + ')">🔧 Maintenance</button>';
+    btns += `<button class="btn btn-amber" onclick="closeModal('roomModal');openMaintModal('${r.id}')">🔧 Maintenance</button>`;
   }
   if(r.status==='available') {
-    btns += '<button class="btn btn-primary" onclick="closeModal(' + JSON.stringify(rm) + ');showPage(' + JSON.stringify('checkin') + ')">+ Check-In Guest</button>';
+    btns += `<button class="btn btn-primary" onclick="closeModal('roomModal');showPage('checkin')">+ Check-In Guest</button>`;
   } else if(r.status==='occupied') {
-    btns += '<button class="btn btn-danger" onclick="closeModal(' + JSON.stringify(rm) + ');openCheckoutFromRoom(' + JSON.stringify(r.id) + ')">Process Check-Out</button>';
+    btns += `<button class="btn btn-danger" onclick="closeModal('roomModal');openCheckoutFromRoom('${r.id}')">Process Check-Out</button>`;
   } else if(r.status==='maintenance') {
-    btns += '<button class="btn btn-success" onclick="clearMaintenance(' + JSON.stringify(r.id) + ')">✅ Mark Available</button>';
+    btns += `<button class="btn btn-success" onclick="clearMaintenance('${r.id}')">✅ Mark Available</button>`;
   } else if(r.status==='cleaning') {
-    btns += '<span style="font-size:12px;color:var(--muted);">Waiting for housekeeping to clean</span>';
+    btns += `<span style="font-size:12px;color:var(--muted);">Waiting for housekeeping to clean</span>`;
   }
   document.getElementById('roomModalFooter').innerHTML = btns;
   openModal('roomModal');
@@ -1616,26 +1278,27 @@ function openRoomModal(roomId) {
 // ══════════════════════════════════════════
 function openMaintModal(roomId) {
   maintTarget = roomId;
-  var r = DB.rooms.find(function(x){return x.id===roomId;});
-  if(!r) return;
-  document.getElementById('maintModalTitle').textContent = 'Maintenance — ' + roomId;
-  document.getElementById('maintRoomInfo').innerHTML = '<strong>' + roomId + '</strong> — ' + r.type + ' | Status: <strong>' + r.status.toUpperCase() + '</strong>';
+  const r = DB.rooms.find(x=>x.id===roomId);
+  document.getElementById('maintModalTitle').textContent = `🔧 Maintenance — ${roomId}`;
+  document.getElementById('maintRoomInfo').innerHTML = `<strong>${roomId}</strong> — ${r.type} | Status: <strong>${r.status.toUpperCase()}</strong>`;
   document.getElementById('maintNotes').value = '';
   document.getElementById('maintAssigned').value = '';
-
-  var html = '';
-  Object.keys(MAINTENANCE_ITEMS).forEach(function(section) {
-    if(section==='Kitchen (Apt Only)' && r.category!=='Apartment') return;
-    html += '<div class="maint-section"><div class="maint-section-title">' + section + '</div>';
-    MAINTENANCE_ITEMS[section].forEach(function(item) {
-      html += '<div class="maint-item">';
-      html += '<input type="checkbox" id="maint-' + item.id + '" value="' + item.label + '"/>';
-      html += '<label for="maint-' + item.id + '">' + item.label + '</label>';
-      html += '<span class="maint-priority ' + item.priority + '">' + item.priority + '</span>';
-      html += '</div>';
+  
+  // Build checklist
+  let html = '';
+  for(const [section, items] of Object.entries(MAINTENANCE_ITEMS)) {
+    // Hide Kitchen section for studios
+    if(section==='Kitchen (Apt Only)' && r.category!=='Apartment') continue;
+    html += `<div class="maint-section"><div class="maint-section-title">${section}</div>`;
+    items.forEach(item => {
+      html += `<div class="maint-item">
+        <input type="checkbox" id="maint-${item.id}" value="${item.label}"/>
+        <label for="maint-${item.id}">${item.label}</label>
+        <span class="maint-priority ${item.priority}">${item.priority}</span>
+      </div>`;
     });
-    html += '</div>';
-  });
+    html += `</div>`;
+  }
   document.getElementById('maintChecklist').innerHTML = html;
   openModal('maintModal');
 }
@@ -1666,24 +1329,24 @@ function saveMaintenance() {
   const room = DB.rooms.find(r=>r.id===maintTarget);
   if(room && room.status==='available') { room.status='maintenance'; }
   
-  logActivity('MAINTENANCE', maintTarget, items.slice(0,2).join(', ') + ' | Priority: ' + priority);
+  logActivity('MAINTENANCE', maintTarget, `${items.slice(0,2).join(', ')} | Priority: ${priority}`);
   saveStore();
   closeModal('maintModal');
   renderRooms();
   renderDashboard();
-  toast('🔧 Maintenance request logged for ' + maintTarget, 'amber');
+  toast(`🔧 Maintenance request logged for ${maintTarget}`, 'amber');
 }
 
 function clearMaintenance(roomId) {
   DB.maintenance.filter(m=>m.roomId===roomId).forEach(m=>m.status='Resolved');
   const r = DB.rooms.find(x=>x.id===roomId);
   if(r) { r.status='available'; r.guest=''; r.checkIn=''; r.checkOut=''; r.bookingRef=''; }
-  logActivity('MAINTENANCE CLEARED', roomId, 'Cleared by ' + currentUser.name);
+  logActivity('MAINTENANCE CLEARED', roomId, `Cleared by ${currentUser.name}`);
   saveStore();
   closeModal('roomModal');
   renderRooms();
   renderDashboard();
-  toast(roomId + ' maintenance cleared — now Available ✅', 'success');
+  toast(`${roomId} maintenance cleared — now Available ✅`, 'success');
 }
 
 function populateRoomSelect() {
@@ -1691,7 +1354,7 @@ function populateRoomSelect() {
   if(!sel) return;
   sel.innerHTML = '<option value="" disabled selected>Select room</option>';
   DB.rooms.filter(r=>r.status==='available').forEach(r=>{
-    sel.innerHTML += '<option value="'+r.id+'">'+r.id+' — '+r.type+'</option>';
+    sel.innerHTML += `<option value="${r.id}">${r.id} — ${r.type}</option>`;
   });
 }
 
@@ -1741,7 +1404,7 @@ function updateHKStatus(id, status) {
 function openHKCleanModal(id) {
   hkCleanTarget = DB.housekeeping.find(x=>x.id===id);
   if(!hkCleanTarget) return;
-  document.getElementById('hkCleanInfo').innerHTML = '<strong>'+hkCleanTarget.roomId+'</strong> — '+hkCleanTarget.roomType+'<br>Previous guest: '+hkCleanTarget.prevGuest;
+  document.getElementById('hkCleanInfo').innerHTML = `<strong>${hkCleanTarget.roomId}</strong> — ${hkCleanTarget.roomType}<br>Previous guest: ${hkCleanTarget.prevGuest}`;
   document.getElementById('hkCleanerName').value = currentUser.name;
   document.getElementById('hkCleanNotes').value = '';
   openModal('hkCleanModal');
@@ -1758,11 +1421,11 @@ function confirmClean() {
   const room = DB.rooms.find(r=>r.id===hkCleanTarget.roomId);
   if(room) { room.status='available'; room.guest=''; room.checkIn=''; room.checkOut=''; room.bookingRef=''; }
 
-  logActivity('ROOM CLEANED', hkCleanTarget.roomId, 'Cleaned by '+hkCleanTarget.cleaner);
+  logActivity('ROOM CLEANED', hkCleanTarget.roomId, `Cleaned by ${hkCleanTarget.cleaner}`);
   saveStore();
   closeModal('hkCleanModal');
   renderHKTasks();
-  toast('✅ '+hkCleanTarget.roomId+' marked as clean and ready for guests!','success');
+  toast(`✅ ${hkCleanTarget.roomId} marked as clean and ready for guests!`, 'success');
   hkCleanTarget = null;
 }
 
@@ -1788,21 +1451,14 @@ function ciStep(dir) {
   }
   document.getElementById('ci-back').style.display=next>1?'inline-flex':'none';
   document.getElementById('ci-next').textContent=next===5?'Complete Check-In ✓':'Continue →';
-  if(next===5) document.getElementById('ci-next').onclick=function(){submitCheckIn();};
-  else document.getElementById('ci-next').onclick=function(){ciStep(1);};
   ciCurrentStep=next;
 }
 
 function submitCheckIn() {
-  if(ciSubmitting) return;
   const fn=document.getElementById('ci-fn').value.trim();
   const ln=document.getElementById('ci-ln').value.trim();
   const roomId=document.getElementById('ci-room').value;
   if(!roomId){toast('Please select a room','error');return;}
-  const room=DB.rooms.find(r=>r.id===roomId);
-  if(!room){toast('Room not found','error');return;}
-  if(room.status!=='available'){toast('❌ '+roomId+' is already '+room.status.toUpperCase()+' — please select a different room','error');populateRoomSelect();document.getElementById('ci-room').value='';return;}
-  ciSubmitting = true;
   const ref=document.getElementById('ci-bookref').value.trim()||genRef();
   const data={
     id:Date.now(),bookingRef:ref,status:'Checked In',
@@ -1829,22 +1485,21 @@ function submitCheckIn() {
     balance:document.getElementById('ci-balance').value||'0',
     staffName:currentUser.name,staffId:currentUser.id,
   };
-
+  const room=DB.rooms.find(r=>r.id===roomId);
   room.status='occupied';room.guest=fn+' '+ln;room.checkIn=data.checkIn;room.checkOut=data.checkOut;room.bookingRef=ref;
   DB.checkIns.push(data);
   updateGuestHistory(data);
-  logActivity('CHECK-IN', roomId, fn + ' ' + ln + ' | Ref: ' + ref);
+  logActivity('CHECK-IN',roomId,`${fn} ${ln} | Ref: ${ref}`);
   saveStore();
   sendToSheets({...data,action:'checkIn'});
-  printCheckInReceipt(data);
-  toast('✅ ' + fn + ' ' + ln + ' checked in to ' + roomId, 'success');
+  generateCheckInPDF(data);
+  toast(`✅ ${fn} ${ln} checked in to ${roomId}`,'success');
   resetCheckInForm();
   renderRooms();renderDashboard();populateRoomSelect();
   showPage('dashboard');
 }
 
 function resetCheckInForm() {
-  ciSubmitting = false;
   document.querySelectorAll('[id^="ci-"]').forEach(el=>{
     if(el.tagName==='INPUT'||el.tagName==='TEXTAREA') el.value='';
     if(el.tagName==='SELECT') el.selectedIndex=0;
@@ -1894,7 +1549,7 @@ function openCheckoutModal(ref) {
   const g=DB.checkIns.find(c=>c.bookingRef===ref);
   if(!g) return;
   checkoutTarget=g;
-  document.getElementById('coGuestInfo').innerHTML='<strong>'+g.firstName+' '+g.lastName+'</strong> — '+g.room+' ('+g.roomType+')<br>Check-In: '+g.checkIn+' | Expected Out: '+g.checkOut+' | Deposit Paid: <strong>GHS '+(g.deposit||0)+'</strong>';
+  document.getElementById('coGuestInfo').innerHTML=`<strong>${g.firstName} ${g.lastName}</strong> — ${g.room} (${g.roomType})<br>Check-In: ${g.checkIn} | Expected Out: ${g.checkOut} | Deposit Paid: <strong>GHS ${g.deposit||0}</strong>`;
   document.getElementById('co-balance').value=g.balance||0;
   document.getElementById('co-extra').value='';
   openModal('checkoutModal');
@@ -1932,14 +1587,14 @@ function processCheckout() {
     priority:'High',status:'Pending',cleaner:'',cleanedAt:'',
     notes:coData.conditionNotes
   });
-  logActivity('CHECK-OUT',g.room,g.firstName+' '+g.lastName+' | Ref: '+g.bookingRef+' | Balance: GHS '+finalBal);
+  logActivity('CHECK-OUT',g.room,`${g.firstName} ${g.lastName} | Ref: ${g.bookingRef} | Balance: GHS ${finalBal}`);
   saveStore();
   sendToSheets({...coData,action:'checkOut'});
-  printCheckOutReceipt(coData);
+  generateCheckOutPDF(coData);
   closeModal('checkoutModal');
   renderCurrentGuests();renderRooms();renderDashboard();populateRoomSelect();
-  toast('✅ '+g.firstName+' '+g.lastName+' checked out from '+g.room,'success');
-  toast('🧹 Room '+g.room+' set to Cleaning — housekeeping notified','info');
+  toast(`✅ ${g.firstName} ${g.lastName} checked out from ${g.room}`,'success');
+  toast(`🧹 Room ${g.room} set to Cleaning — housekeeping notified`,'info');
   checkoutTarget=null;
 }
 
@@ -2071,10 +1726,10 @@ function saveEvent() {
     createdBy:currentUser.name,createdAt:new Date().toLocaleString('en-GB'),
   };
   DB.events.push(ev);
-  logActivity('EVENT BOOKED',ev.venue||'Venue TBD',name+' | '+client+' | '+date);
+  logActivity('EVENT BOOKED',ev.venue||'Venue TBD',`${name} | ${client} | ${date}`);
   saveStore();closeModal('eventModal');
   renderEvents('all');renderVenueOverview();renderDashboard();
-  toast('🎉 Event "'+name+'" booked for '+date,'success');
+  toast(`🎉 Event "${name}" booked for ${date}`,'success');
 }
 function renderEvents(filter) {
   const cont=document.getElementById('eventsContainer');
@@ -2160,9 +1815,9 @@ function saveReservation(){
     status:'Pending',createdBy:currentUser.name,createdAt:new Date().toLocaleString('en-GB'),
   };
   DB.reservations.push(r);
-  logActivity('RESERVATION','Restaurant',name+' | '+r.covers+' covers | '+time);
+  logActivity('RESERVATION','Restaurant',`${name} | ${r.covers} covers | ${time}`);
   saveStore();closeModal('reservationModal');renderRestaurant();
-  toast('🍽️ Table reserved for '+name+' at '+time,'success');
+  toast(`🍽️ Table reserved for ${name} at ${time}`,'success');
 }
 function updateResStatus(id,status){
   const r=DB.reservations.find(x=>x.id===id);
@@ -2216,7 +1871,7 @@ function renderStaff() {
   tbody.innerHTML=DB.staff.map(s=>`<tr>
     <td style="font-family:monospace;font-size:12px;font-weight:600;">${s.id}</td>
     <td><strong>${s.name}</strong></td><td>${s.role}</td>
-    <td><span class="badge ${s.access==='admin'?'purple':s.access==='housekeeper'?'blue':s.access==='security'?'amber':s.access==='supervisor'?'teal':'gray'}">${s.access}</span></td>
+    <td><span class="badge ${s.access==='admin'?'purple':s.access==='housekeeper'?'blue':s.access==='supervisor'?'teal':'gray'}">${s.access}</span></td>
     <td><span class="badge green">Active</span></td>
     <td>${currentUser&&currentUser.access==='admin'?`<button class="btn btn-sm btn-danger" onclick="removeStaff('${s.id}')">Remove</button>`:'—'}</td>
   </tr>`).join('');
@@ -2229,7 +1884,7 @@ function saveStaff(){
   if(!name||!pass){toast('Please fill in name and password','error');return;}
   const newStaff={id:document.getElementById('sf-id').value,name,role:document.getElementById('sf-role').value,access:document.getElementById('sf-access').value,pass};
   DB.staff.push(newStaff);saveStore();closeModal('staffModal');renderStaff();
-  toast('Staff member '+name+' added (ID: '+newStaff.id+')','success');
+  toast(`Staff member ${name} added (ID: ${newStaff.id})`,'success');
 }
 function removeStaff(id){
   if(id===currentUser.id){toast("You can't remove yourself",'error');return;}
@@ -2317,122 +1972,356 @@ function generateReport() {
 // ══════════════════════════════════════════
 // PDF GENERATION
 // ══════════════════════════════════════════
+function generateCheckInPDF(data) {
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF({unit:'mm', format:'a4'});
+  const W = 210, m = 16, cw = W - m*2;
+  const teal = [0,180,180], dark = [10,42,42], white = [255,255,255];
+  const lightGray = [248,250,252], midGray = [100,116,139], darkText = [15,23,42], borderGray = [226,232,240];
 
-// ══════════════════════════════════════════
-// PRINT RECEIPT FALLBACKS (work offline)
-// ══════════════════════════════════════════
+  // ── HEADER BAND ──────────────────────────────────
+  doc.setFillColor(...dark); doc.rect(0,0,W,38,'F');
 
+  // Teal accent bar on left
+  doc.setFillColor(...teal); doc.rect(0,0,5,38,'F');
 
-function buildReceiptWindow(title) {
-  var w = window.open('','_blank','width=820,height=950');
-  var css = '*{margin:0;padding:0;box-sizing:border-box;}body{font-family:Arial,sans-serif;font-size:13px;color:#111;padding:0;max-width:210mm;margin:auto;}.hdr{background:#0a2a2a;color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;}.badge{background:#00b4b4;color:#0a2a2a;font-weight:800;font-size:11px;padding:3px 8px;border-radius:4px;margin-bottom:5px;display:inline-block;}.hname{font-size:18px;font-weight:700;}.hsub{font-size:11px;color:#00d4d4;margin-top:2px;}.refbox{background:#005050;padding:8px 14px;border-radius:6px;text-align:right;}.reflbl{font-size:9px;color:#00d4d4;letter-spacing:1px;}.refval{font-size:15px;font-weight:700;}.doctype{background:#00b4b4;color:#0a2a2a;font-size:11px;font-weight:700;letter-spacing:2px;padding:5px 20px;text-align:center;}.sec{margin:12px 4px 3px;}.sectitle{font-size:10px;font-weight:700;color:#00b4b4;letter-spacing:1px;text-transform:uppercase;border-left:3px solid #00b4b4;padding-left:6px;margin-bottom:4px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;}.cell{background:#f5fafa;padding:5px 7px;}.lbl{font-size:9px;color:#64748b;margin-bottom:1px;}.val{font-size:12px;font-weight:600;}.full{grid-column:span 2;}.paybox{background:#0a2a2a;color:#fff;padding:12px 14px;border-radius:6px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 4px;}.plbl{font-size:9px;color:#80c8c8;margin-bottom:3px;}.pval{font-size:14px;font-weight:700;}.sig{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin:20px 4px 10px;}.sigline{border-top:1px solid #aaa;padding-top:4px;font-size:9px;color:#64748b;text-align:center;}.ftr{background:#0a2a2a;color:#80c8c8;font-size:9px;padding:8px 20px;display:flex;justify-content:space-between;margin-top:12px;}.printbtn{display:block;margin:10px auto;background:#00b4b4;color:#0a2a2a;border:none;padding:9px 28px;font-size:13px;font-weight:700;border-radius:6px;cursor:pointer;}@media print{.printbtn{display:none!important;}}';
-  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+title+'</title><style>'+css+'</style></head><body>');
-  return w;
-}
-function C(lbl,val,full){return '<div class="cell'+(full?' full':'')+'"><div class="lbl">'+lbl+'</div><div class="val">'+(val||'—')+'</div></div>';}
-function printCheckInReceipt(d){
-  var bal=parseFloat(d.balance||0);
-  var w=buildReceiptWindow('Check-In: '+d.bookingRef);
-  var h='';
-  h+='<div class="hdr"><div><span class="badge">BRUTON</span><div class="hname">Gardens &amp; Apartments</div><div class="hsub">Issued: '+d.timestamp+' | Staff: '+d.staffName+'</div></div>';
-  h+='<div class="refbox"><div class="reflbl">BOOKING REF</div><div class="refval">'+d.bookingRef+'</div><div style="font-size:9px;color:#aaa;">Check-In: '+d.checkIn+'</div></div></div>';
-  h+='<div class="doctype">GUEST CHECK-IN RECEIPT &amp; INVOICE</div>';
-  h+='<div class="sec"><div class="sectitle">Guest Details</div><div class="grid">';
-  h+=C('Full Name',d.firstName+' '+d.lastName)+C('Phone',d.phone)+C('Email',d.email)+C('Nationality',d.nationality)+C('Date of Birth',d.dob)+C('Gender',d.gender);
-  h+='</div></div><div class="sec"><div class="sectitle">Identification</div><div class="grid">';
-  h+=C('ID Type',d.idType)+C('ID Number',d.idNumber)+C('Country of Issue',d.idCountry)+C('Expiry Date',d.idExpiry);
-  h+='</div></div><div class="sec"><div class="sectitle">Stay Details</div><div class="grid">';
-  h+=C('Check-In',d.checkIn)+C('Check-Out',d.checkOut)+C('Room',d.room+' — '+d.roomType)+C('Nights',String(d.nights||'—'))+C('Guests',String(d.numGuests||'—'))+C('Stay Type',d.stayType)+C('Booking Ref',d.bookingRef,true);
-  if(d.notes)h+=C('Special Requests',d.notes,true);
-  h+='</div></div>';
-  if(d.vehicle){h+='<div class="sec"><div class="sectitle">Vehicle</div><div class="grid">'+C('Vehicle',d.vehicle+(d.vehicleColor?' — '+d.vehicleColor:''))+C('Plate',d.plate)+C('Parking',d.parking)+'</div></div>';}
-  h+='<div class="sec"><div class="sectitle">Payment</div><div class="grid">'+C('Method',d.paymentMethod)+C('Transaction Ref',d.txn)+'</div></div>';
-  h+='<div class="paybox">';
-  h+='<div><div class="plbl">TOTAL COST</div><div class="pval">GHS '+(d.total||'0.00')+'</div></div>';
-  h+='<div><div class="plbl">DEPOSIT PAID</div><div class="pval" style="color:#4ddc80;">GHS '+(d.deposit||'0.00')+'</div></div>';
-  h+='<div><div class="plbl">BALANCE DUE</div><div class="pval" style="color:'+(bal>0?'#ff7070':'#4ddc80')+';">GHS '+(d.balance||'0.00')+'</div><div style="font-size:9px;color:#80c8c8;">'+(bal<=0?'Settled':'Balance owed')+'</div></div>';
-  h+='</div>';
-  h+='<div class="sig"><div class="sigline">Guest Signature</div><div class="sigline">Receptionist: '+d.staffName+'</div></div>';
-  h+='<div class="ftr"><span>BRUTON GARDENS &amp; APARTMENTS &nbsp;·&nbsp; +233 556 050 957 &nbsp;·&nbsp; St Johns, Dome-Kwabenya-Brekusu Road</span><span>Thank you!</span></div>';
-  h+='<button class="printbtn" onclick="window.print()">Print / Save as PDF</button>';
-  w.document.write(h);w.document.close();
-}
-function printCheckOutReceipt(d){
-  var bal=parseFloat(d.finalBalance||0);
-  var w=buildReceiptWindow('Check-Out: '+d.bookingRef);
-  var h='';
-  h+='<div class="hdr"><div><span class="badge">BRUTON</span><div class="hname">Gardens &amp; Apartments</div><div class="hsub">Check-Out: '+d.checkOutDate+' | Staff: '+d.staffName+'</div></div>';
-  h+='<div class="refbox"><div class="reflbl">BOOKING REF</div><div class="refval">'+d.bookingRef+'</div><div style="font-size:9px;color:#aaa;">Room: '+d.room+'</div></div></div>';
-  h+='<div class="doctype">GUEST CHECK-OUT RECEIPT</div>';
-  h+='<div class="sec"><div class="sectitle">Guest Details</div><div class="grid">';
-  h+=C('Guest Name',d.guestName,true)+C('Check-In',d.checkInDate)+C('Check-Out',d.checkOutDate)+C('Room',d.room+' — '+(d.roomType||''))+C('Nights',String(d.nightsStayed||'—'));
-  h+='</div></div><div class="sec"><div class="sectitle">Payment</div><div class="grid">'+C('Method',d.paymentMethod)+C('Transaction Ref',d.txn)+'</div></div>';
-  h+='<div class="paybox">';
-  h+='<div><div class="plbl">TOTAL COST</div><div class="pval">GHS '+(d.totalCost||'0.00')+'</div></div>';
-  h+='<div><div class="plbl">DEPOSIT PAID</div><div class="pval" style="color:#4ddc80;">GHS '+(d.depositPaid||'0.00')+'</div></div>';
-  h+='<div><div class="plbl">FINAL BALANCE</div><div class="pval" style="color:'+(bal<=0?'#4ddc80':'#ff7070')+';font-size:11px;">'+(bal<=0?'SETTLED':'OUTSTANDING: GHS '+Math.abs(bal).toFixed(2))+'</div></div>';
-  h+='</div>';
-  if(d.conditionNotes){h+='<div class="sec"><div class="sectitle">Room Condition Notes</div><div class="grid">'+C('Notes',d.conditionNotes,true)+'</div></div>';}
-  h+='<div class="sig"><div class="sigline">Guest Signature</div><div class="sigline">Receptionist: '+d.staffName+'</div></div>';
-  h+='<div class="ftr"><span>BRUTON GARDENS &amp; APARTMENTS &nbsp;·&nbsp; +233 556 050 957 &nbsp;·&nbsp; St Johns, Dome-Kwabenya-Brekusu Road</span><span>We hope to see you again!</span></div>';
-  h+='<button class="printbtn" onclick="window.print()">Print / Save as PDF</button>';
-  w.document.write(h);w.document.close();
-}
+  // Logo badge
+  doc.setFillColor(...teal); doc.roundedRect(m,9,24,12,2,2,'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...dark);
+  doc.text('BRUTON', m+12, 16.5, {align:'center'});
 
+  // Hotel name
+  doc.setFont('helvetica','bold'); doc.setFontSize(17); doc.setTextColor(...white);
+  doc.text('Gardens & Apartments', m+28, 16);
+  doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...teal);
+  doc.text('GUEST CHECK-IN RECEIPT & INVOICE', m+28, 22);
+  doc.setFontSize(7); doc.setTextColor(170,210,210);
+  doc.text('Generated: '+data.timestamp+'  |  Staff: '+data.staffName, m+28, 28);
 
-if('serviceWorker' in navigator){
-  window.addEventListener('load',function(){
-    var c='self.addEventListener("install",function(e){self.skipWaiting()});self.addEventListener("fetch",function(e){e.respondWith(fetch(e.request).catch(function(){return caches.match(e.request)}))})';
-    navigator.serviceWorker.register(URL.createObjectURL(new Blob([c],{type:'application/javascript'}))).catch(function(){});
-  });
-}
-var deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',function(e){
-  e.preventDefault();
-  deferredPrompt=e;
-  setTimeout(showInstallBanner,3000);
-});
-function showInstallBanner(){
-  if(!deferredPrompt||localStorage.getItem('pwa_dismissed'))return;
-  var d=document.createElement('div');
-  d.id='installBanner';
-  d.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;background:#0a2a2a;border:1.5px solid #00b4b4;border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.4);max-width:360px;width:90%;';
-  var logo=document.createElement('div');logo.style.cssText='background:#00b4b4;color:#0a2a2a;font-weight:800;font-size:14px;padding:8px 10px;border-radius:8px;';logo.textContent='B';
-  var txt=document.createElement('div');txt.style.cssText='flex:1;color:#fff;';txt.innerHTML='<div style="font-weight:700;font-size:13px;">Install Bruton HMS</div><div style="font-size:11px;color:#94a3b8;margin-top:2px;">Add to home screen</div>';
-  var btn=document.createElement('button');btn.style.cssText='background:#00b4b4;color:#0a2a2a;border:none;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;';btn.textContent='Install';btn.onclick=installApp;
-  var x=document.createElement('button');x.style.cssText='background:none;border:none;color:#64748b;font-size:18px;cursor:pointer;padding:0 4px;';x.textContent='x';x.onclick=dismissInstall;
-  d.appendChild(logo);d.appendChild(txt);d.appendChild(btn);d.appendChild(x);
-  document.body.appendChild(d);
-}
-function installApp(){
-  if(!deferredPrompt)return;
-  deferredPrompt.prompt();
-  deferredPrompt.userChoice.then(function(){deferredPrompt=null;dismissInstall();});
-}
-function dismissInstall(){
-  localStorage.setItem('pwa_dismissed','1');
-  var b=document.getElementById('installBanner');
-  if(b)b.remove();
-}
-window.addEventListener('load',function(){
-  var isIos=/iphone|ipad|ipod/i.test(navigator.userAgent);
-  var isStandalone=window.matchMedia('(display-mode: standalone)').matches;
-  if(isIos&&!isStandalone&&!localStorage.getItem('ios_dismissed')){
-    setTimeout(function(){
-      var d=document.createElement('div');
-      d.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;background:#0a2a2a;border:1.5px solid #00b4b4;border-radius:14px;padding:14px 18px;max-width:360px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.4);';
-      var row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;';
-      var title=document.createElement('div');title.style.cssText='color:#fff;font-weight:700;font-size:13px;';title.textContent='Install Bruton HMS';
-      var close=document.createElement('button');close.style.cssText='background:none;border:none;color:#64748b;font-size:18px;cursor:pointer;';close.textContent='x';
-      close.onclick=function(){d.remove();localStorage.setItem('ios_dismissed','1');};
-      var msg=document.createElement('div');msg.style.cssText='color:#94a3b8;font-size:12px;line-height:1.6;';
-      msg.innerHTML='Tap <strong style="color:#00b4b4;">Share</strong> then <strong style="color:#00b4b4;">Add to Home Screen</strong>.';
-      row.appendChild(title);row.appendChild(close);
-      d.appendChild(row);d.appendChild(msg);
-      document.body.appendChild(d);
-    },3000);
+  // Booking ref box (top right)
+  doc.setFillColor(0,80,80); doc.roundedRect(W-m-46, 7, 46, 24, 2,2,'F');
+  doc.setFillColor(...teal); doc.rect(W-m-46, 7, 3, 24, 'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(...teal);
+  doc.text('BOOKING REF', W-m-40, 14);
+  doc.setFontSize(11); doc.setTextColor(...white);
+  doc.text(data.bookingRef||'N/A', W-m-40, 21);
+  doc.setFontSize(7); doc.setTextColor(170,210,210);
+  doc.text('Check-In: '+data.checkIn, W-m-40, 27);
+
+  let y = 48;
+
+  // ── HELPER FUNCTIONS ──────────────────────────────
+  // Section header
+  function sectionHeader(title) {
+    doc.setFillColor(...teal); doc.rect(m, y, cw, 0.8, 'F'); // top line
+    doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(...teal);
+    doc.text(title.toUpperCase(), m, y+6);
+    doc.setFillColor(...borderGray); doc.rect(m, y+7.5, cw, 0.3, 'F'); // bottom line
+    y += 12;
   }
-});
 
+  // A row with two label+value pairs side by side
+  function infoRow(label1, val1, label2, val2) {
+    const col2 = m + cw/2 + 4;
+    // Background stripe alternating
+    doc.setFillColor(...lightGray); doc.rect(m, y-1, cw, 10, 'F');
+    doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...midGray);
+    doc.text(label1, m+3, y+3);
+    if(label2) doc.text(label2, col2, y+3);
+    doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...darkText);
+    doc.text(val1||'—', m+3, y+8.5);
+    if(label2!==undefined) doc.text(val2||'—', col2, y+8.5);
+    y += 12;
+  }
+
+  // Single full-width row
+  function infoRowFull(label, val) {
+    doc.setFillColor(...lightGray); doc.rect(m, y-1, cw, 10, 'F');
+    doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...midGray);
+    doc.text(label, m+3, y+3);
+    doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...darkText);
+    doc.text(val||'—', m+3, y+8.5);
+    y += 12;
+  }
+
+  function gap(n) { y += (n||4); }
+
+  // ── GUEST DETAILS ────────────────────────────────
+  sectionHeader('Guest Details');
+  infoRow('Full Name', data.firstName+' '+data.lastName, 'Phone', data.phone||'—');
+  gap(1);
+  infoRow('Email Address', data.email||'—', 'Nationality', data.nationality||'—');
+  gap(1);
+  infoRow('Date of Birth', data.dob||'—', 'Gender', data.gender||'—');
+  gap(6);
+
+  // ── ID DETAILS ────────────────────────────────────
+  sectionHeader('Identification');
+  infoRow('ID Type', data.idType||'—', 'ID Number', data.idNumber||'—');
+  gap(1);
+  infoRow('Country of Issue', data.idCountry||'—', 'Expiry Date', data.idExpiry||'—');
+  gap(6);
+
+  // ── STAY DETAILS ─────────────────────────────────
+  sectionHeader('Stay Details');
+  infoRow('Check-In Date', data.checkIn||'—', 'Check-Out Date', data.checkOut||'—');
+  gap(1);
+  infoRow('Room / Apartment', data.room+' — '+data.roomType, 'No. of Nights', String(data.nights||'—'));
+  gap(1);
+  infoRow('No. of Guests', String(data.numGuests||'—'), 'Stay Type', data.stayType||'—');
+  gap(1);
+  infoRowFull('Booking Reference', data.bookingRef||'—');
+  if(data.notes) { gap(1); infoRowFull('Special Requests / Notes', data.notes); }
+  gap(6);
+
+  // ── VEHICLE ──────────────────────────────────────
+  if(data.vehicle) {
+    sectionHeader('Vehicle');
+    infoRow('Vehicle', data.vehicle+(data.vehicleColor?' ('+data.vehicleColor+')':''), 'Plate Number', data.plate||'—');
+    gap(1);
+    infoRow('Parking Bay', data.parking||'—', '', '');
+    gap(6);
+  }
+
+  // ── PAYMENT SUMMARY ──────────────────────────────
+  sectionHeader('Payment Summary');
+  infoRow('Payment Method', data.paymentMethod||'—', 'Transaction No.', data.txn||'—');
+  gap(3);
+
+  // Payment totals box
+  const boxH = 32;
+  doc.setFillColor(...dark); doc.roundedRect(m, y, cw, boxH, 3,3,'F');
+  doc.setFillColor(...teal); doc.roundedRect(m, y, 3, boxH, 3,3,'F');
+
+  // Row inside box: three columns
+  const col1x = m+6, col2x = m+cw/3+6, col3x = m+(cw/3)*2+6;
+  doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(150,200,200);
+  doc.text('TOTAL STAY COST', col1x, y+7);
+  doc.text('DEPOSIT PAID', col2x, y+7);
+  doc.text('BALANCE DUE', col3x, y+7);
+
+  doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(...white);
+  doc.text('GHS '+( data.total||'0.00'), col1x, y+16);
+  doc.setTextColor(100,220,100);
+  doc.text('GHS '+(data.deposit||'0.00'), col2x, y+16);
+  const bal = parseFloat(data.balance||0);
+  doc.setTextColor(bal>0?[255,120,120]:[100,220,100]);
+  doc.text('GHS '+(data.balance||'0.00'), col3x, y+16);
+
+  doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(150,200,200);
+  doc.text(bal<=0 ? '✓ No balance outstanding' : '⚠ Amount still owed by guest', col1x, y+24);
+  y += boxH + 10;
+
+  // ── SIGNATURE SECTION ────────────────────────────
+  doc.setDrawColor(...borderGray); doc.setLineWidth(0.4);
+  const sigY = y + 14;
+  doc.line(m, sigY, m+75, sigY);
+  doc.line(m+cw-75, sigY, m+cw, sigY);
+  doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...midGray);
+  doc.text('Guest Signature', m+37, sigY+4, {align:'center'});
+  doc.text('Receptionist: '+data.staffName+' / '+data.staffId, m+cw-37, sigY+4, {align:'center'});
+  y = sigY + 12;
+
+  // ── FOOTER ───────────────────────────────────────
+  const footerY = 272;
+  doc.setFillColor(...dark); doc.rect(0, footerY, W, 25,'F');
+  doc.setFillColor(...teal); doc.rect(0, footerY, W, 1.5,'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...teal);
+  doc.text('BRUTON GARDENS & APARTMENTS', m, footerY+8);
+  doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(170,210,210);
+  doc.text('St Johns - Dome-Kwabenya-Brekusu Road, GW-0550-2843', m, footerY+13);
+  doc.text('+233 556 050 957  ·  info@brutongardens.com  ·  www.brutongardens.com', m, footerY+18);
+  doc.setTextColor(...teal); doc.setFontSize(7);
+  doc.text('Thank you for choosing Bruton Gardens & Apartments!', W-m, footerY+13, {align:'right'});
+
+  doc.save('Bruton_CheckIn_'+(data.firstName+data.lastName).replace(/\s/g,'_')+'_'+data.checkIn+'.pdf');
+}
+
+function generateCheckOutPDF(data) {
+  const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});
+  const W=210,m=14,cw=W-2*m;
+  doc.setFillColor(26,10,42);doc.rect(0,0,W,40,'F');
+  doc.setFillColor(180,0,180);doc.roundedRect(m,9,22,10,2,2,'F');
+  doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text('BRUTON',m+11,15.5,{align:'center'});
+  doc.setTextColor(255,255,255);doc.setFontSize(18);doc.text('Gardens & Apartments',m+27,16);
+  doc.setTextColor(200,100,200);doc.setFontSize(9);doc.setFont('helvetica','normal');doc.text('GUEST CHECK-OUT RECEIPT',m+27,22);
+  let y=48;
+  function row2(l1,v1,l2,v2){doc.setTextColor(90,112,112);doc.setFontSize(7);doc.setFont('helvetica','normal');doc.text(l1,m,y);if(l2!==undefined)doc.text(l2,m+cw/2,y);doc.setTextColor(26,26,26);doc.setFontSize(9);doc.setFont('helvetica','bold');doc.text(v1||'—',m,y+5);if(v2!==undefined)doc.text(v2||'—',m+cw/2,y+5);y+=13;}
+  row2('Guest Name',data.guestName,'Booking Ref',data.bookingRef);
+  row2('Room',data.room,'Nights Stayed',String(data.nightsStayed));
+  row2('Check-In',data.checkInDate,'Check-Out',data.checkOutDate);
+  y+=5;doc.setFillColor(26,10,42);doc.rect(m,y-3,cw,38,'F');
+  doc.setTextColor(200,100,200);doc.setFontSize(9);doc.setFont('helvetica','bold');
+  doc.text('Total Cost: GHS '+data.totalCost,m+4,y+5);
+  doc.text('Deposit Paid: GHS '+data.depositPaid,m+cw/2,y+5);
+  doc.text('Additional Charges: GHS '+(data.additionalCharges||0),m+4,y+13);
+  const bal=parseFloat(data.finalBalance||0);
+  if(bal<=0)doc.setTextColor(76,187,23);else doc.setTextColor(255,100,100);
+  doc.setFontSize(13);doc.text(bal<=0?'✓ BALANCE SETTLED':'OUTSTANDING: GHS '+bal,m+4,y+24);
+  doc.setTextColor(200,100,200);doc.setFontSize(8);doc.text('Processed by: '+data.staffName,m+4,y+31);
+  doc.setFillColor(26,10,42);doc.rect(0,276,W,21,'F');
+  doc.setTextColor(200,100,200);doc.setFontSize(7);doc.text('BRUTON GARDENS & APARTMENTS · St Johns - Dome-Kwabenya-Brekusu Road · +233 556 050 957',m,285);
+  doc.save(`Bruton_CheckOut_${(data.guestName||'').replace(/\s/g,'_')}_${data.checkOutDate}.pdf`);
+}
+
+// ══════════════════════════════════════════
+// GOOGLE SHEETS SYNC
+// ══════════════════════════════════════════
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycby_045HKqBOTHr__xD25QcK3HQ2RQnSXI6tR_8UddVvij6zX_L37H5MCMCPzBPCuf4o/exec';
+function sendToSheets(data) {
+  if(!SHEET_URL||SHEET_URL.includes('YOUR_GOOGLE'))return;
+  fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(e=>console.warn('Sheets sync:',e));
+}
+
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+function logActivity(type,room,details){
+  DB.activityLog.push({time:new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}),type,room,details});
+  if(DB.activityLog.length>100)DB.activityLog=DB.activityLog.slice(-100);
+  saveStore();
+}
+function getChip(grp){const el=document.querySelector(`[onclick*="'${grp}'"].on`);return el?el.textContent.trim():'';}
+function solo(el,grp){document.querySelectorAll(`[onclick*="'${grp}'"]`).forEach(c=>c.classList.remove('on'));el.classList.add('on');}
+function genRef(){return 'BG-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*9000)+1000);}
+function openModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+
+function openSecModal() {
+  const now = new Date();
+  document.getElementById('sec-timein').value = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  ['sec-name','sec-phone','sec-plate','sec-visiting'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('sec-purpose').value='';
+  openModal('secModal');
+}
+function submitSecVisitor() {
+  const name=document.getElementById('sec-name').value.trim();
+  const phone=document.getElementById('sec-phone').value.trim();
+  const plate=document.getElementById('sec-plate').value.trim().toUpperCase();
+  const visiting=document.getElementById('sec-visiting').value.trim();
+  const purpose=document.getElementById('sec-purpose').value;
+  const timeIn=document.getElementById('sec-timein').value;
+  if(!name||!phone||!plate||!visiting||!purpose){toast('Please fill in all required fields','error');return;}
+  const today=new Date().toISOString().split('T')[0];
+  const entry={id:'VIS-'+Date.now(),name,phone,plate,visiting,purpose,timeIn,timeOut:'',date:today,loggedBy:currentUser.name,shift:currentUser.name.toLowerCase().includes('night')?'Night':'Day',status:'On Premises'};
+  DB.visitorLog.push(entry);
+  saveStore();
+  try{sendToSheets({...entry,action:'visitorLog'});}catch(e){}
+  closeModal('secModal');
+  renderSecLog();
+  renderSecStats();
+  toast('Visitor logged successfully','success');
+}
+function logVisitorOut(id) {
+  const entry=DB.visitorLog.find(v=>v.id===id);
+  if(!entry)return;
+  const now=new Date();
+  entry.timeOut=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  entry.status='Departed';
+  saveStore();
+  renderSecLog();
+  renderSecStats();
+  toast('Visitor departure recorded','success');
+}
+function renderSecStats() {
+  const today=new Date().toISOString().split('T')[0];
+  const tv=(DB.visitorLog||[]).filter(v=>v.date===today);
+  const t=document.getElementById('secStatTotal');
+  const i=document.getElementById('secStatIn');
+  const o=document.getElementById('secStatOut');
+  if(t)t.textContent=tv.length;
+  if(i)i.textContent=tv.filter(v=>v.status==='On Premises').length;
+  if(o)o.textContent=tv.filter(v=>v.status==='Departed').length;
+}
+function renderSecLog() {
+  const today=new Date().toISOString().split('T')[0];
+  const search=(document.getElementById('secSearch')||{value:''}).value.toLowerCase();
+  const tbody=document.getElementById('secLogTable');
+  const emptyMsg=document.getElementById('secEmptyMsg');
+  if(!tbody)return;
+  let logs=[...(DB.visitorLog||[])].sort((a,b)=>b.id.localeCompare(a.id));
+  if(search)logs=logs.filter(v=>v.name.toLowerCase().includes(search)||v.plate.toLowerCase().includes(search)||v.phone.includes(search));
+  if(!logs.length){tbody.innerHTML='';if(emptyMsg)emptyMsg.style.display='block';return;}
+  if(emptyMsg)emptyMsg.style.display='none';
+  const rows=logs.map(v=>{
+    const sc=v.status==='On Premises'?'#ef4444':'#22c55e';
+    const tr=document.createElement('tr');
+    tr.style.borderBottom='1px solid #e2e8f0';
+    tr.innerHTML='<td style="padding:10px 14px;font-weight:600;">'+v.name+'</td>'
+      +'<td style="padding:10px 14px;color:#64748b;font-size:12px;">'+v.phone+'</td>'
+      +'<td style="padding:10px 14px;"><span style="background:#1e3a5f;color:#f59e0b;font-weight:700;font-size:12px;padding:3px 8px;border-radius:5px;">'+v.plate+'</span></td>'
+      +'<td style="padding:10px 14px;color:#64748b;font-size:12px;">'+v.purpose+'</td>'
+      +'<td style="padding:10px 14px;color:#64748b;font-size:12px;">'+v.visiting+'</td>'
+      +'<td style="padding:10px 14px;font-weight:600;color:#f59e0b;">'+(v.timeIn||'—')+'</td>'
+      +'<td style="padding:10px 14px;font-weight:600;color:#22c55e;">'+(v.timeOut||'—')+'</td>'
+      +'<td style="padding:10px 14px;"><span style="background:'+sc+'22;color:'+sc+';font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;">'+v.status+'</span></td>'
+      +'<td style="padding:10px 14px;"></td>';
+    const lastTd=tr.querySelector('td:last-child');
+    if(v.status==='On Premises'){
+      const btn=document.createElement('button');
+      btn.textContent='Log Out';
+      btn.style.cssText='background:#22c55e22;border:1px solid #22c55e44;color:#22c55e;border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer;font-family:inherit;font-weight:600;';
+      btn.onclick=function(){logVisitorOut(v.id);};
+      lastTd.appendChild(btn);
+    } else {
+      lastTd.innerHTML='<span style="color:#94a3b8;font-size:11px;">Departed</span>';
+    }
+    return tr;
+  });
+  tbody.innerHTML='';
+  rows.forEach(r=>tbody.appendChild(r));
+}
+
+function renderSecAdminLog() {
+  const search=(document.getElementById('secAdminSearch')||{value:''}).value.toLowerCase();
+  const tbody=document.getElementById('secAdminTable');
+  if(!tbody)return;
+  let logs=[...(DB.visitorLog||[])].sort((a,b)=>b.id.localeCompare(a.id));
+  if(search)logs=logs.filter(v=>v.name.toLowerCase().includes(search)||v.plate.toLowerCase().includes(search));
+  const stats=document.getElementById('secAdminStats');
+  if(stats)stats.textContent=logs.length+' records';
+  if(!logs.length){tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:30px;color:#94a3b8;">No visitor records.</td></tr>';return;}
+  tbody.innerHTML=logs.map(v=>'<tr><td>'+v.date+'</td><td style="font-weight:600;">'+v.name+'</td><td>'+v.phone+'</td><td><span class="badge amber">'+v.plate+'</span></td><td>'+v.purpose+'</td><td>'+v.visiting+'</td><td style="color:#f59e0b;font-weight:600;">'+(v.timeIn||'—')+'</td><td style="color:#22c55e;font-weight:600;">'+(v.timeOut||'—')+'</td><td><span class="badge '+(v.shift==='Night'?'purple':'teal')+'">'+v.shift+' Shift</span></td><td><span class="badge '+(v.status==='On Premises'?'red':'green')+'">'+v.status+'</span></td></tr>').join('');
+}
+function removeDuplicates() {
+  const before=DB.checkIns.length;
+  const seen=new Set();
+  DB.checkIns=DB.checkIns.filter(c=>{if(seen.has(c.bookingRef))return false;seen.add(c.bookingRef);return true;});
+  DB.rooms.forEach(r=>{const active=DB.checkIns.find(c=>c.room===r.id&&c.status==='Checked In');if(!active&&r.status==='occupied'){r.status='available';r.guest='';r.checkIn='';r.checkOut='';r.bookingRef='';}});
+  const removed=before-DB.checkIns.length;
+  saveStore();
+  if(removed>0){toast('Removed '+removed+' duplicate(s)','success');setTimeout(()=>location.reload(),1500);}
+  else toast('No duplicates found — all records are clean!','success');
+}
+function backupData() {
+  const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='BrutonHMS_Backup_'+new Date().toISOString().split('T')[0]+'.json';
+  a.click();toast('Backup downloaded','success');
+}
+function restoreData() {
+  const input=document.createElement('input');input.type='file';input.accept='.json';
+  input.onchange=e=>{
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      try{
+        const d=JSON.parse(ev.target.result);
+        if(!d.checkIns||!d.rooms){toast('Invalid backup file','error');return;}
+        Object.assign(DB,d);saveStore();
+        toast('Data restored — reloading…','success');
+        setTimeout(()=>location.reload(),1500);
+      }catch(err){toast('Could not read backup file','error');}
+    };
+    reader.readAsText(e.target.files[0]);
+  };
+  input.click();
+}
+
+function toast(msg,type='info'){
+  const c=document.getElementById('toastContainer');
+  const t=document.createElement('div');t.className=`toast ${type}`;t.innerHTML=msg;c.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(100%)';t.style.transition='all .3s';setTimeout(()=>t.remove(),300);},3500);
+}
 </script>
-</body></html>
+</body>
+</html>
