@@ -2503,6 +2503,10 @@ function printCheckOutReceipt(d) {
   w.document.write(h);
   w.document.close();
 }
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/brutoncheckin/sw.js');
+}
 </script>
 </body>
 </html>
