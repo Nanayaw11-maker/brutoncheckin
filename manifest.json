@@ -1,26 +1,25 @@
 {
   "name": "Bruton Gardens & Apartments HMS",
   "short_name": "Bruton HMS",
-  "description": "Hotel Management System for Bruton Gardens & Apartments staff",
-  "start_url": "/brutoncheckin/",
+  "description": "Hotel Management System",
+  "start_url": "/brutoncheckin/index.html",
+  "scope": "/brutoncheckin/",
   "display": "standalone",
   "background_color": "#0a2a2a",
   "theme_color": "#0a2a2a",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%230a2a2a'/%3E%3Crect x='0' y='0' width='12' height='192' rx='4' fill='%2300b4b4'/%3E%3Ctext x='104' y='108' font-family='Arial' font-weight='bold' font-size='90' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%230a2a2a'/%3E%3Ctext x='96' y='116' font-family='Arial' font-weight='bold' font-size='120' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E",
       "sizes": "192x192",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%230a2a2a'/%3E%3Crect x='0' y='0' width='32' height='512' rx='8' fill='%2300b4b4'/%3E%3Ctext x='276' y='290' font-family='Arial' font-weight='bold' font-size='240' fill='white' text-anchor='middle' dominant-baseline='middle'%3EB%3C/text%3E%3C/svg%3E",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%230a2a2a'/%3E%3Ctext x='256' y='310' font-family='Arial' font-weight='bold' font-size='320' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E",
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
-  ],
-  "categories": ["business", "productivity"],
-  "lang": "en"
+  ]
 }
