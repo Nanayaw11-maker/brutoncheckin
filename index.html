@@ -1493,8 +1493,8 @@ function submitCheckIn() {
   logActivity('CHECK-IN',roomId,`${fn} ${ln} | Ref: ${ref}`);
   saveStore();
   sendToSheets({...data,action:'checkIn'});
-  generateCheckInPDF(data);
-  toast(`✅ ${fn} ${ln} checked in to ${roomId}`,'success');
+  try { generateCheckInPDF(data); } catch(e) { printCheckInReceipt(data); }
+  toast('✅ '+fn+' '+ln+' checked in to '+roomId,'success');
   resetCheckInForm();
   renderRooms();renderDashboard();populateRoomSelect();
   showPage('dashboard');
@@ -1591,7 +1591,7 @@ function processCheckout() {
   logActivity('CHECK-OUT',g.room,`${g.firstName} ${g.lastName} | Ref: ${g.bookingRef} | Balance: GHS ${finalBal}`);
   saveStore();
   sendToSheets({...coData,action:'checkOut'});
-  generateCheckOutPDF(coData);
+  try { generateCheckOutPDF(coData); } catch(e) { printCheckOutReceipt(coData); }
   closeModal('checkoutModal');
   renderCurrentGuests();renderRooms();renderDashboard();populateRoomSelect();
   toast(`✅ ${g.firstName} ${g.lastName} checked out from ${g.room}`,'success');
@@ -2316,6 +2316,65 @@ function restoreData() {
     reader.readAsText(e.target.files[0]);
   };
   input.click();
+}
+
+
+function buildReceiptWindow(title) {
+  var w = window.open('','_blank','width=820,height=950');
+  var css = '*{margin:0;padding:0;box-sizing:border-box;}body{font-family:Arial,sans-serif;font-size:13px;color:#111;padding:0;max-width:210mm;margin:auto;}.hdr{background:#0a2a2a;color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;}.badge{background:#00b4b4;color:#0a2a2a;font-weight:800;font-size:11px;padding:3px 8px;border-radius:4px;margin-bottom:5px;display:inline-block;}.hname{font-size:18px;font-weight:700;}.hsub{font-size:11px;color:#00d4d4;margin-top:2px;}.refbox{background:#005050;padding:8px 14px;border-radius:6px;text-align:right;}.reflbl{font-size:9px;color:#00d4d4;letter-spacing:1px;}.refval{font-size:15px;font-weight:700;}.doctype{background:#00b4b4;color:#0a2a2a;font-size:11px;font-weight:700;letter-spacing:2px;padding:5px 20px;text-align:center;}.sec{margin:12px 4px 3px;}.sectitle{font-size:10px;font-weight:700;color:#00b4b4;letter-spacing:1px;text-transform:uppercase;border-left:3px solid #00b4b4;padding-left:6px;margin-bottom:4px;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;}.cell{background:#f5fafa;padding:5px 7px;}.lbl{font-size:9px;color:#64748b;margin-bottom:1px;}.val{font-size:12px;font-weight:600;}.full{grid-column:span 2;}.paybox{background:#0a2a2a;color:#fff;padding:12px 14px;border-radius:6px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 4px;}.plbl{font-size:9px;color:#80c8c8;margin-bottom:3px;}.pval{font-size:14px;font-weight:700;}.sig{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin:20px 4px 10px;}.sigline{border-top:1px solid #aaa;padding-top:4px;font-size:9px;color:#64748b;text-align:center;}.ftr{background:#0a2a2a;color:#80c8c8;font-size:9px;padding:8px 20px;display:flex;justify-content:space-between;margin-top:12px;}.printbtn{display:block;margin:10px auto;background:#00b4b4;color:#0a2a2a;border:none;padding:9px 28px;font-size:13px;font-weight:700;border-radius:6px;cursor:pointer;}@media print{.printbtn{display:none!important;}}';
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+title+'</title><style>'+css+'</style></head><body>');
+  return w;
+}
+function C(lbl,val,full){return '<div class="cell'+(full?' full':'')+'"><div class="lbl">'+lbl+'</div><div class="val">'+(val||'—')+'</div></div>';}
+
+function printCheckInReceipt(d) {
+  var bal=parseFloat(d.balance||0);
+  var w=buildReceiptWindow('Check-In: '+d.bookingRef);
+  var h='';
+  h+='<div class="hdr"><div><span class="badge">BRUTON</span><div class="hname">Gardens &amp; Apartments</div><div class="hsub">Issued: '+d.timestamp+' | Staff: '+d.staffName+'</div></div>';
+  h+='<div class="refbox"><div class="reflbl">BOOKING REF</div><div class="refval">'+d.bookingRef+'</div><div style="font-size:9px;color:#aaa;">Check-In: '+d.checkIn+'</div></div></div>';
+  h+='<div class="doctype">GUEST CHECK-IN RECEIPT &amp; INVOICE</div>';
+  h+='<div class="sec"><div class="sectitle">Guest Details</div><div class="grid">';
+  h+=C('Full Name',d.firstName+' '+d.lastName)+C('Phone',d.phone)+C('Email',d.email)+C('Nationality',d.nationality)+C('Date of Birth',d.dob)+C('Gender',d.gender);
+  h+='</div></div><div class="sec"><div class="sectitle">Identification</div><div class="grid">';
+  h+=C('ID Type',d.idType)+C('ID Number',d.idNumber)+C('Country of Issue',d.idCountry)+C('Expiry Date',d.idExpiry);
+  h+='</div></div><div class="sec"><div class="sectitle">Stay Details</div><div class="grid">';
+  h+=C('Check-In',d.checkIn)+C('Check-Out',d.checkOut)+C('Room',d.room+' — '+d.roomType)+C('Nights',String(d.nights||'—'))+C('Guests',String(d.numGuests||'—'))+C('Stay Type',d.stayType)+C('Booking Ref',d.bookingRef,true);
+  if(d.notes)h+=C('Special Requests',d.notes,true);
+  h+='</div></div>';
+  if(d.vehicle){h+='<div class="sec"><div class="sectitle">Vehicle</div><div class="grid">'+C('Vehicle',d.vehicle+(d.vehicleColor?' — '+d.vehicleColor:''))+C('Plate',d.plate)+C('Parking',d.parking)+'</div></div>';}
+  h+='<div class="sec"><div class="sectitle">Payment</div><div class="grid">'+C('Method',d.paymentMethod)+C('Transaction Ref',d.txn)+'</div></div>';
+  h+='<div class="paybox">';
+  h+='<div><div class="plbl">TOTAL COST</div><div class="pval">GHS '+(d.total||'0.00')+'</div></div>';
+  h+='<div><div class="plbl">DEPOSIT PAID</div><div class="pval" style="color:#4ddc80;">GHS '+(d.deposit||'0.00')+'</div></div>';
+  h+='<div><div class="plbl">BALANCE DUE</div><div class="pval" style="color:'+(bal>0?'#ff7070':'#4ddc80')+';">GHS '+(d.balance||'0.00')+'</div><div style="font-size:9px;color:#80c8c8;">'+(bal<=0?'Settled':'Balance owed')+'</div></div>';
+  h+='</div>';
+  h+='<div class="sig"><div class="sigline">Guest Signature</div><div class="sigline">Receptionist: '+d.staffName+'</div></div>';
+  h+='<div class="ftr"><span>BRUTON GARDENS &amp; APARTMENTS &nbsp;·&nbsp; +233 556 050 957 &nbsp;·&nbsp; St Johns, Dome-Kwabenya-Brekusu Road</span><span>Thank you!</span></div>';
+  h+='<button class="printbtn" onclick="window.print()">🖨️ Print / Save as PDF</button>';
+  w.document.write(h);w.document.close();
+}
+
+function printCheckOutReceipt(d) {
+  var bal=parseFloat(d.finalBalance||0);
+  var w=buildReceiptWindow('Check-Out: '+d.bookingRef);
+  var h='';
+  h+='<div class="hdr"><div><span class="badge">BRUTON</span><div class="hname">Gardens &amp; Apartments</div><div class="hsub">Check-Out: '+d.checkOutDate+' | Staff: '+d.staffName+'</div></div>';
+  h+='<div class="refbox"><div class="reflbl">BOOKING REF</div><div class="refval">'+d.bookingRef+'</div><div style="font-size:9px;color:#aaa;">Room: '+d.room+'</div></div></div>';
+  h+='<div class="doctype">GUEST CHECK-OUT RECEIPT</div>';
+  h+='<div class="sec"><div class="sectitle">Guest Details</div><div class="grid">';
+  h+=C('Guest Name',d.guestName,true)+C('Check-In',d.checkInDate)+C('Check-Out',d.checkOutDate)+C('Room',d.room+' — '+(d.roomType||''))+C('Nights',String(d.nightsStayed||'—'));
+  h+='</div></div><div class="sec"><div class="sectitle">Payment</div><div class="grid">'+C('Method',d.paymentMethod)+C('Transaction Ref',d.txn)+'</div></div>';
+  h+='<div class="paybox">';
+  h+='<div><div class="plbl">TOTAL COST</div><div class="pval">GHS '+(d.totalCost||'0.00')+'</div></div>';
+  h+='<div><div class="plbl">DEPOSIT PAID</div><div class="pval" style="color:#4ddc80;">GHS '+(d.depositPaid||'0.00')+'</div></div>';
+  h+='<div><div class="plbl">FINAL BALANCE</div><div class="pval" style="color:'+(bal<=0?'#4ddc80':'#ff7070')+';font-size:11px;">'+(bal<=0?'SETTLED':'OUTSTANDING: GHS '+Math.abs(bal).toFixed(2))+'</div></div>';
+  h+='</div>';
+  if(d.conditionNotes){h+='<div class="sec"><div class="sectitle">Room Condition Notes</div><div class="grid">'+C('Notes',d.conditionNotes,true)+'</div></div>';}
+  h+='<div class="sig"><div class="sigline">Guest Signature</div><div class="sigline">Receptionist: '+d.staffName+'</div></div>';
+  h+='<div class="ftr"><span>BRUTON GARDENS &amp; APARTMENTS &nbsp;·&nbsp; +233 556 050 957 &nbsp;·&nbsp; St Johns, Dome-Kwabenya-Brekusu Road</span><span>We hope to see you again!</span></div>';
+  h+='<button class="printbtn" onclick="window.print()">🖨️ Print / Save as PDF</button>';
+  w.document.write(h);w.document.close();
 }
 
 function toast(msg,type='info'){
