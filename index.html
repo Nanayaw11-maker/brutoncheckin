@@ -1159,6 +1159,95 @@ function appLogout() {
 // ══════════════════════════════════════════
 // APP INIT
 // ══════════════════════════════════════════
+function syncFromSheets() {
+  try {
+    fetch(SHEET_URL + '?action=getAll')
+      .then(r => r.json())
+      .then(data => {
+        if(!data.success) return;
+        let changed = false;
+
+        // ── Sync Check-In Guests ──────────────────────────
+        if(data.guests && data.guests.length > 0) {
+          data.guests.forEach(g => {
+            const exists = DB.checkIns.find(c => c.bookingRef === g.bookingRef);
+            if(!exists) {
+              DB.checkIns.push({
+                bookingRef: g.bookingRef,
+                firstName: g.firstName,
+                lastName: g.lastName,
+                email: g.email || '',
+                phone: g.phone || '',
+                checkIn: g.checkIn,
+                checkOut: g.checkOut,
+                nights: g.nights,
+                room: g.room,
+                roomType: g.roomType || '',
+                numGuests: g.numGuests || 1,
+                stayType: g.stayType || '',
+                paymentMethod: g.paymentMethod || '',
+                deposit: g.deposit || '0',
+                total: g.total || '0',
+                balance: g.balance || '0',
+                status: 'Checked In',
+                staffName: g.staffName || '',
+                timestamp: g.timestamp || g.checkIn
+              });
+              // Update room status
+              const room = DB.rooms.find(r => r.id === g.room);
+              if(room) {
+                room.status = 'occupied';
+                room.guest = g.firstName + ' ' + g.lastName;
+                room.checkIn = g.checkIn;
+                room.checkOut = g.checkOut;
+                room.bookingRef = g.bookingRef;
+              }
+              changed = true;
+            }
+          });
+        }
+
+        // ── Sync Visitor Log ─────────────────────────────
+        if(data.visitors && data.visitors.length > 0) {
+          data.visitors.forEach(v => {
+            const exists = (DB.visitorLog||[]).find(x => x.id === v.id);
+            if(!exists) {
+              if(!DB.visitorLog) DB.visitorLog = [];
+              DB.visitorLog.push({
+                id: v.id,
+                name: v.name,
+                phone: v.phone,
+                plate: v.plate,
+                purpose: v.purpose,
+                visiting: v.visiting,
+                timeIn: v.timeIn,
+                timeOut: v.timeOut || '',
+                date: v.date,
+                status: v.status || 'On Premises',
+                shift: v.shift || 'Day',
+                loggedBy: v.loggedBy || ''
+              });
+              changed = true;
+            }
+          });
+        }
+
+        if(changed) {
+          saveStore();
+          renderRooms();
+          renderCurrentGuests();
+          renderDashboard();
+          renderSecLog();
+          renderSecAdminLog();
+          toast('✅ Data synced from server', 'success');
+        }
+      })
+      .catch(e => console.log('Sheets sync skipped (offline)'));
+  } catch(e) {
+    console.log('Sheets sync error:', e);
+  }
+}
+
 function initApp() {
   renderRooms();
   renderDashboard();
@@ -1591,7 +1680,7 @@ function processCheckout() {
   logActivity('CHECK-OUT',g.room,`${g.firstName} ${g.lastName} | Ref: ${g.bookingRef} | Balance: GHS ${finalBal}`);
   saveStore();
   sendToSheets({...coData,action:'checkOut'});
-  try { generateCheckOutPDF(coData); } catch(e) { printCheckOutReceipt(coData); }
+  printCheckOutReceipt(coData);
   closeModal('checkoutModal');
   renderCurrentGuests();renderRooms();renderDashboard();populateRoomSelect();
   toast(`✅ ${g.firstName} ${g.lastName} checked out from ${g.room}`,'success');
@@ -2168,7 +2257,7 @@ function generateCheckOutPDF(data) {
 // ══════════════════════════════════════════
 // GOOGLE SHEETS SYNC
 // ══════════════════════════════════════════
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycby_045HKqBOTHr__xD25QcK3HQ2RQnSXI6tR_8UddVvij6zX_L37H5MCMCPzBPCuf4o/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyaWhLqCIwIN1dluMWAV4F2InGzHQM4qnIWbxSJ73uzzk6MkFQAGcEAY1w782pflKkZ/exec';
 function sendToSheets(data) {
   if(!SHEET_URL||SHEET_URL.includes('YOUR_GOOGLE'))return;
   fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(e=>console.warn('Sheets sync:',e));
